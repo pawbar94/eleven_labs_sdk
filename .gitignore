@@ -1,18 +1,14 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
-
-# Other files and folders
-.settings/
-
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
-
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+.idea
+eleven_labs_api/requests_old/__pycache__
+eleven_labs_api/responses/__pycache__
+eleven_labs_api/responses/voice_model/__pycache__
+eleven_labs_api/__pycache__
+eleven_labs_api/requests/__pycache__
+eleven_labs_api/requests/exceptions/__pycache__
+test/test_requests/__pycache__
+eleven_labs_api/responses/history_item_model/__pycache__/
+eleven_labs_api/responses/user_info_model/__pycache__/
+test/test_responses/__pycache__/
+test/test_responses/test_history_item_model/__pycache__/
+test/test_responses/test_user_info_model/__pycache__/
+test/test_responses/test_voice_model/__pycache__/

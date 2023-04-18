@@ -1,0 +1,2 @@
+class EmptySampleId(Exception):
+    pass

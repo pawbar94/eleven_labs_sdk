@@ -1,0 +1,2 @@
+class InvalidStabilityValue(Exception):
+    pass

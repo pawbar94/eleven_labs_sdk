@@ -1,0 +1,2 @@
+class EmptyHistoryItemId(Exception):
+    pass
