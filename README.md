@@ -5,7 +5,7 @@ Table of contents:
 
 [What is it?](#what_is_it)<br>
 [How to use](#how_to_use)<br>
-[ElevenLabs API wrapper](#eleven_labs_api_wrapper)<br>
+[ElevenLabs API client](#eleven_labs_api_client)<br>
 &emsp;[Creating api object](#creating_api_object)<br>
 &emsp;[Getting available voices](#getting_available_voices)<br>
 &emsp;[Converting text to audio file](#converting_text_to_audio_file)<br>
@@ -29,7 +29,7 @@ Table of contents:
 ## <a name="what_is_it"></a>What is it?
 
 ElevenLabs SDK for Python is a Python module which is supposed to deliver a bunch of programming tools which make usage of ElevenLabs text-to-speech conversion service easier and help developing full solutions. Currently available tools are:
-* ElevenLabs API wrapper
+* ElevenLabs API client
 
 But there is a plan for further development.
 
@@ -37,7 +37,7 @@ But there is a plan for further development.
 
 This repository is a Python module, so in order to use it, just add it as a submodule to your project (or clone it somewhere within your project) and import the required stuff (more detailed description below).
 
-# ElevenLabs API wrapper
+# ElevenLabs API client
 
 The full documentation of the API created by ElevenLabs may be found here: https://api.elevenlabs.io/docs .
 
