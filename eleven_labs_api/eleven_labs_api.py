@@ -57,7 +57,7 @@ class ElevenLabsApi:
             logger.debug(f'\nVoice to use: {voice}\n'
                          f'Text to convert:{text}\n')
 
-            return self.__handle_request(RequestCode.POST, RequestID.TEXT_TO_SPEECH_AUDIO,
+            return self.__handle_request(RequestCode.POST, RequestID.TEXT_TO_SPEECH_STREAM,
                                          request_params={'voice_id': voice.id, 'text': text,
                                                          'stability': voice.settings.stability,
                                                          'similarity_boost': voice.settings.similarity_boost})
