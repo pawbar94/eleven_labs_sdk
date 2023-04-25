@@ -7,6 +7,8 @@ class TextToSpeechAudioResponse(BaseResponse):
         super().__init__(raw_response)
         self.__output_file_path: str = output_file_path
 
-    def _get_processed_response(self) -> None:
+    def _get_processed_response(self) -> bytes:
         with open(self.__output_file_path, 'wb') as file:
             file.write(self._raw_response.content)
+
+        return self._raw_response.content
