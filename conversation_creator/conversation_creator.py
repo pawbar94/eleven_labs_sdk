@@ -15,6 +15,13 @@ class ConversationCreator:
         self.__voices: Dict[ActorName, Voice] = voices
 
     def create(self, dialogue: str, output_dir: str) -> None:
+        """
+        Create a dialogue audio from the given text script and save it in the given output directory.
+        :param dialogue: Text with a conversation. Currently, speech of every actor has to begin with the actor's name
+                         placed between '[' and ']' brackets.
+        :param output_dir: output directory where both individual audio files and the final dialogue audio will be
+                           saved.
+        """
         self.__create_project_folder(output_dir)
 
         roles: List[Tuple[ActorName, str]] = DialogueDecomposer.split_into_roles(actors=list(self.__voices.keys()),

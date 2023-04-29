@@ -22,7 +22,7 @@ class ElevenLabsApi:
     def __init__(self, api_key: str):
         self.__api_key: str = api_key
 
-    def text_to_speech_audio(self, text: str, voice: Voice, output_file_path: str) -> bytes:
+    def text_to_speech_audio(self, text: str, voice: Voice, output_file_path: str) -> None:
         """
         Convert the given text to an audio file using the specified voice and save it to the given file path.
 
