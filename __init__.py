@@ -10,3 +10,5 @@ from .eleven_labs_api.responses.voice_model.voice_settings import VoiceSettings
 from .eleven_labs_api.responses.history_item_model.history_item import HistoryItem
 from .eleven_labs_api.responses.user_info_model.user_subscription_info import UserSubscriptionInfo
 from .eleven_labs_api.responses.user_info_model.user_info import UserInfo
+from .conversation_creator.conversation_creator import ConversationCreator
+from .conversation_creator.dialogue_decomposer import ActorName

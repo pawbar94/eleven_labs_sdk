@@ -25,6 +25,7 @@ Table of contents:
 &emsp;[Downloading history items](#downloading_history_items)<br>
 &emsp;[Getting user subscription info](#getting_user_subscription_info)<br>
 &emsp;[Getting user info](#getting_user_info)<br>
+[Conversation creator](#conversation_creator)<br>
 
 ## <a name="what_is_it"></a>What is it?
 
@@ -363,3 +364,50 @@ user_info: UserInfo = api.get_user_info()
 # Print subscription info
 print(user_info)
 ```
+
+# <a name="conversation_creator"></a>Conversation creator
+
+Conversation creator is a module which allows to create an audio of a conversation between two or more people basing on
+a text script. In order to create a conversation, first of all you need to have a script. For purpose of this example,
+let's assume that there is a file called _interview.txt_ which contains the following text:
+
+```
+[John] Hello, how are you?
+[Mary] I'm fine, thanks. And you?
+[John] I'm fine too because I've just got back from the trip in the mountains.
+[Mary] Great, I'd love to go with you next time.
+```
+
+Below you can find an example of code converting dialogue from the file into audio file:
+
+```python
+from typing import Dict
+from eleven_labs_sdk import ElevenLabsApi, ConversationCreator, ActorName, Voice
+# Create API object
+api = ElevenLabsApi(api_key='YOUR_API_KEY')
+# Get all voices available on your account
+all_voices = api.get_voices()
+# Find the voices you need for the conversation
+bella_voice = list(filter(lambda x: x.name == 'Bella', all_voices))[0]
+adam_voice = list(filter(lambda x: x.name == 'Adam', all_voices))[0]
+# optionally: tweak voice settings
+bella_voice.settings.stability = 0.35
+bella_voice.settings.similarity_boost = 0.75
+
+adam_voice.settings.stability = 0.35
+adam_voice.settings.similarity_boost = 0.75
+# read dialogue from the file
+with open('interview.txt', 'r') as f:
+    dialogue = f.read()
+# create a mapping between speakers and their voices
+voices: Dict[ActorName, Voice] = {'John': adam_voice,
+                                  'Mary': bella_voice}
+# create conversation creator providing api object and voice mapping
+conversation_creator = ConversationCreator(api, voices)
+# create audio file with the conversation and save it to output_folder directory
+conversation_creator.create(dialogue, 'output_folder')
+```
+
+After running this program, you will see a newly created folder called _output_folder_ which contains the following files:
+* _John_0.mp3_, _Mary_1.mp3_, _John_2.mp3_, _Mary_3.mp3_ - audio files with individual speakers' parts
+* _dialogue.mp3_ - audio file with the whole conversation
