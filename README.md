@@ -26,6 +26,7 @@ Table of contents:
 &emsp;[Getting user subscription info](#getting_user_subscription_info)<br>
 &emsp;[Getting user info](#getting_user_info)<br>
 [Conversation creator](#conversation_creator)<br>
+[Command line interface application](#command_line_interface_application)<br>
 
 ## <a name="what_is_it"></a>What is it?
 
@@ -411,3 +412,18 @@ conversation_creator.create(dialogue, 'output_folder')
 After running this program, you will see a newly created folder called _output_folder_ which contains the following files:
 * _John_0.mp3_, _Mary_1.mp3_, _John_2.mp3_, _Mary_3.mp3_ - audio files with individual speakers' parts
 * _dialogue.mp3_ - audio file with the whole conversation
+
+# <a name="command_line_interface_application"></a>Command line interface application
+
+If you don't want to create your own application basing on the described Python modules, you can use a standalone CLI
+application exposing the same functionalities as the libraries' API. First, you need to pyt your Eleven Labs API key
+in _cli/config/api_key.json_ file. Then, assuming you are in _cli_ folder, you can run the application using the
+following command:
+
+```bash
+python run_el_cli.py [args]
+```
+
+This application uses __Comlint__ as a main framework for parsing command line arguments, so it inherits its behavior and
+concepts. You can find more information about Comlint [here](https://github.com/pawbar94/comlint_cpp). For example, if
+you run the application with no argument (or with _-h_ or _--help_ or _help_), you will see the application's help.
