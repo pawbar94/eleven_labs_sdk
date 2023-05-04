@@ -16,4 +16,5 @@ test/test_eleven_labs_api/__pycache__
 conversation_creator/__pycache__
 test/test_conversation_creator/__pycache__
 cli/__pycache__
-thirdparty/comlint_py/__pycache__
+cli/commands/__pycache__
+cli/user_interface/__pycache__
