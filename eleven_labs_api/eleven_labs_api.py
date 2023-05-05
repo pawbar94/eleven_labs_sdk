@@ -33,7 +33,7 @@ class ElevenLabsApi:
         try:
             logger.info(f'Converting text to speech using {voice.name} voice and saving it to {output_file_path} file')
             logger.debug(f'\nVoice to use: {voice}\n'
-                         f'Text to convert:{text}\n')
+                         f'Text to convert: {text}\n')
 
             return self.__handle_request(RequestCode.POST, RequestID.TEXT_TO_SPEECH_AUDIO,
                                          request_params={'voice_id': voice.id, 'text': text,
@@ -55,7 +55,7 @@ class ElevenLabsApi:
         try:
             logger.info(f'Converting text to speech stream using {voice.name} voice')
             logger.debug(f'\nVoice to use: {voice}\n'
-                         f'Text to convert:{text}\n')
+                         f'Text to convert: {text}\n')
 
             return self.__handle_request(RequestCode.POST, RequestID.TEXT_TO_SPEECH_STREAM,
                                          request_params={'voice_id': voice.id, 'text': text,

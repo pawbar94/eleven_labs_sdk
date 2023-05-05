@@ -1,4 +1,7 @@
 from typing import List, Tuple, Dict
+from logging import getLogger
+
+logger = getLogger('DialogueDecomposer')
 
 ActorName = str
 
@@ -6,9 +9,16 @@ ActorName = str
 class DialogueDecomposer:
     @staticmethod
     def split_into_roles(actors: List[ActorName], dialogue: str) -> List[Tuple[ActorName, str]]:
+        logger.debug(f'Splitting dialogue into roles for actors {actors}')
+
         actors_tags_indexes: List[int] = DialogueDecomposer.__get_actors_tags_indexes(actors, dialogue)
+        logger.debug(f'Got actors tags indexes: {actors_tags_indexes}')
+
         actors_sections: List[str] = DialogueDecomposer.__get_actors_sections(actors_tags_indexes, dialogue)
+        logger.debug(f'Extracted individual actors\'s sections: {actors_sections}')
+
         roles: List[Tuple[ActorName, str]] = DialogueDecomposer.__get_roles(actors_sections)
+        logger.debug(f'Combined actors\'s names with their sections into roles: {roles}')
 
         return roles
 

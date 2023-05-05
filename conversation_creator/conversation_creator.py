@@ -3,6 +3,9 @@ from typing import List, Dict, Tuple
 from conversation_creator.dialogue_decomposer import DialogueDecomposer, ActorName
 from eleven_labs_api.eleven_labs_api import Voice, ElevenLabsApi
 from moviepy.editor import AudioFileClip, concatenate_audioclips
+from logging import getLogger
+
+logger = getLogger('ConversationCreator')
 
 AudioStream = bytes
 
@@ -22,19 +25,31 @@ class ConversationCreator:
         :param output_dir: output directory where both individual audio files and the final dialogue audio will be
                            saved.
         """
+        logger.info('Creating dialogue audio')
+
         self.__create_project_folder(output_dir)
 
+        logger.info(f'Splitting dialogue into roles')
         roles: List[Tuple[ActorName, str]] = DialogueDecomposer.split_into_roles(actors=list(self.__voices.keys()),
                                                                                  dialogue=dialogue)
+
+        logger.info(f'Getting audio streams for roles')
         audios: List[Tuple[ActorName, AudioStream]] = self.__get_audio_streams(roles)
+
+        logger.info(f'Saving individual audio files')
         self.__save_individual_files(audios, output_dir)
 
+        logger.info(f'Combining individual audio files into one dialogue audio')
         audio_clips: List[AudioFileClip] = self.__load_audio_clips(output_dir)
         final_audio = concatenate_audioclips(audio_clips)
-        final_audio.write_audiofile(os.path.join(output_dir, DIALOGUE_FILE_NAME))
+        dialog_audio_file_path: str = os.path.join(output_dir, DIALOGUE_FILE_NAME)
+        final_audio.write_audiofile(dialog_audio_file_path, verbose=False, logger=None)
+
+        logger.info(f'Dialogue saved to {dialog_audio_file_path} file')
 
     def __create_project_folder(self, output_dir: str) -> None:
         if not os.path.exists(output_dir):
+            logger.info(f'Creating project folder: {output_dir}')
             os.mkdir(output_dir)
 
     def __get_audio_streams(self, roles: List[Tuple[ActorName, str]]) -> List[Tuple[ActorName, AudioStream]]:
@@ -48,7 +63,10 @@ class ConversationCreator:
 
     def __save_individual_files(self, audios: List[Tuple[ActorName, AudioStream]], output_dir: str) -> None:
         for index, element in enumerate(audios):
-            with open(os.path.join(output_dir, f'{element[0]}_{index}.mp3'), 'wb') as f:
+            audio_file_path: str = os.path.join(output_dir, f'{element[0]}_{index}.mp3')
+            logger.debug(f'Saving {element[0]}\'s section number {index} to {audio_file_path} file')
+
+            with open(audio_file_path, 'wb') as f:
                 f.write(element[1])
 
     def __load_audio_clips(self, project_folder: str) -> List[AudioFileClip]:

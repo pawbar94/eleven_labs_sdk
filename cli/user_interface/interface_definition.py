@@ -33,4 +33,4 @@ LOG_LEVEL_OPTION: str = '-log'
 
 DEFAULT_FLAG: str = '--default'
 
-DEFAULT_LOGGING_LEVEL: str = 'INFO'
+DEFAULT_LOGGING_LEVEL: str = 'info'
