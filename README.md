@@ -27,6 +27,8 @@ Table of contents:
 &emsp;[Getting user info](#getting_user_info)<br>
 [Conversation creator](#conversation_creator)<br>
 [Command line interface application](#command_line_interface_application)<br>
+&emsp;[Converting text to audio file](#converting_text_to_audio_file)<br>
+&emsp;[Converting text to dialogue audio](#converting_text_to_dialogue_audio)<br>
 
 ## <a name="what_is_it"></a>What is it?
 
@@ -427,3 +429,98 @@ python run_el_cli.py [args]
 This application uses __Comlint__ as a main framework for parsing command line arguments, so it inherits its behavior and
 concepts. You can find more information about Comlint [here](https://github.com/pawbar94/comlint_cpp). For example, if
 you run the application with no argument (or with _-h_ or _--help_ or _help_), you will see the application's help.
+
+## <a name="converting_text_to_audio_file"></a>Converting text to audio file
+
+In order to convert text to audio file, prepare a file with text you want to convert. Currently supported text file
+extensions are:
+* .txt
+* .docx
+
+Let's say you want to convert text from _my_text.docx_ file to audio using Arnold voice:
+
+```bash
+python run_el_cli.py to-speech -input my_text.docx -name Arnold
+```
+
+By default, the output will be saved to .mp3 file in the same directory as the main CLI application script. You can
+specify the output file path using _-output_ argument:
+
+```bash
+python run_el_cli.py to-speech -input my_text.docx -name Arnold -output /path/to/output.mp3
+```
+
+In the console you should see the following output:
+
+```
+[INFO][ElevenLabsApi] Getting all voices
+[INFO][ElevenLabsApi] Converting text to speech using Arnold voice
+[INFO][MpegToSpeechConverter] Saved audio to /path/to/output.mp3 file
+```
+
+Currently supported audio files extensions are:
+* .mp3
+* .mpeg
+
+## <a name="converting_text_to_dialogue_audio"></a>Converting text to dialogue audio
+
+In order to convert a textual dialogue to a dialogue audio, first of all you need to prepare a text file with the
+dialogue. It may be .txt or .docx file, but for now it must have the following format:
+
+```
+[Speaker name 1] Text section
+[Speaker name 2] Text section
+```
+
+For example, let's say that there is a file called _dialogue.docx_ with the following content:
+
+```
+[John] Hello Mary, how are you?
+[Mary] I'm fine and you?
+[John] Pretty ok.
+[Mary] Ok, bye.
+```
+
+Now you need to provide a mapping between the speakers and their voices. Such mapping should be placed in _actors.json_
+file placed in _cli/config_ directory. The keys of the mapping are the names of the speakers in the provided dialogue
+and values are names of the voices you want to use. For this example, let's assign Arnold voice to John and Rachel
+voice to Mary:
+
+```json
+{
+  "John": "Arnold",
+  "Mary": "Rachel"
+}
+```
+
+Now you can run the application:
+
+```bash
+python run_el_cli.py to-dialogue -input dialogue.docx
+```
+
+After running the command, you will see the newly created folder called _dialogue_project_ in the same directory as CLI
+main script. You can find the dialogue in _dialogue_project/dialogue.mp3_ file. If you want, you can specify a custom
+project directory:
+
+```bash
+python run_el_cli.py to-dialogue -input dialogue.docx -output /path/to/project
+```
+
+After running the above command, you will find the dialogue file in the specified directory. In the console you should
+see the following output:
+
+```
+[INFO][ElevenLabsApi] Getting all voices
+[INFO][ConversationCreator] Creating dialogue audio
+[INFO][ConversationCreator] Creating project folder: /path/to/project
+[INFO][ConversationCreator] Splitting dialogue into roles
+[INFO][ConversationCreator] Getting audio streams for roles
+[INFO][ElevenLabsApi] Converting text to speech stream using Arnold voice
+[INFO][ElevenLabsApi] Converting text to speech stream using Rachel voice
+[INFO][ElevenLabsApi] Converting text to speech stream using Arnold voice
+[INFO][ElevenLabsApi] Converting text to speech stream using Rachel voice
+[INFO][ConversationCreator] Saving individual audio files
+[INFO][ConversationCreator] Combining individual audio files into one dialogue audio
+[INFO][ConversationCreator] Dialogue saved to /path/to/project/dialogue.mp3 file
+```

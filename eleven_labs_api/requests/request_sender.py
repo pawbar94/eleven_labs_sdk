@@ -1,9 +1,11 @@
 import requests
+import logging
 from typing import Dict
 from eleven_labs_api.requests.request_code import RequestCode
-from logging import getLogger
 
-logger = getLogger('RequestSender')
+logging.getLogger('requests').setLevel(logging.WARNING)
+logging.getLogger('urllib3').setLevel(logging.WARNING)
+logger = logging.getLogger('RequestSender')
 
 ELEVEN_LABS_API_URL: str = 'https://api.elevenlabs.io'
 

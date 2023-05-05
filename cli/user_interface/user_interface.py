@@ -15,6 +15,7 @@ from cli.commands.get_user_info_command import GetUserInfoCommand
 from cli.commands.get_voices_command import GetVoicesCommand
 from cli.commands.to_dialogue_command import ToDialogueCommand
 from cli.commands.to_speech_command import ToSpeechCommand
+from cli.directories import ACTORS_FILE_PATH
 from cli.user_interface.interface_definition import TO_SPEECH_COMMAND, INPUT_OPTION, NAME_OPTION, OUTPUT_OPTION, \
     LOG_LEVEL_OPTION, TO_DIALOGUE_COMMAND, CONFIG_OPTION, GET_VOICES_COMMAND, GET_HISTORY_COMMAND, \
     GET_USER_INFO_COMMAND, GET_SUB_INFO_COMMAND, GET_SETTINGS_COMMAND, DELETE_VOICE_COMMAND, DELETE_SAMPLE_COMMAND, \
@@ -54,10 +55,11 @@ class UserInterface:
                                allowed_options=[INPUT_OPTION, NAME_OPTION, OUTPUT_OPTION, LOG_LEVEL_OPTION],
                                required_options=[INPUT_OPTION, NAME_OPTION])
         self.__cli.add_command(command_name=TO_DIALOGUE_COMMAND,
-                               description='Converts text from the given file to a dialogue between two or more people '
-                                           'basing on voice mapping provided in JSON configuration file.',
-                               allowed_options=[INPUT_OPTION, CONFIG_OPTION, OUTPUT_OPTION, LOG_LEVEL_OPTION],
-                               required_options=[INPUT_OPTION, CONFIG_OPTION])
+                               description=f'Converts text from the given file to a dialogue between two or more '
+                                           f'people basing on voice mapping provided in JSON configuration file '
+                                           f'located int {ACTORS_FILE_PATH}.',
+                               allowed_options=[INPUT_OPTION, OUTPUT_OPTION, LOG_LEVEL_OPTION],
+                               required_options=[INPUT_OPTION])
 
     def __define_get_commands(self) -> None:
         self.__cli.add_command(command_name=GET_VOICES_COMMAND,
@@ -152,8 +154,8 @@ class UserInterface:
                             description='If used, a default voice settings will be downloaded.')
 
     def __register_command_handlers(self, api: ElevenLabsApi) -> None:
-        self.__cli.add_command_handler(command_name=TO_SPEECH_COMMAND, command_handler=ToSpeechCommand())
-        self.__cli.add_command_handler(command_name=TO_DIALOGUE_COMMAND, command_handler=ToDialogueCommand())
+        self.__cli.add_command_handler(command_name=TO_SPEECH_COMMAND, command_handler=ToSpeechCommand(api))
+        self.__cli.add_command_handler(command_name=TO_DIALOGUE_COMMAND, command_handler=ToDialogueCommand(api))
 
         self.__cli.add_command_handler(command_name=GET_VOICES_COMMAND, command_handler=GetVoicesCommand())
         self.__cli.add_command_handler(command_name=GET_HISTORY_COMMAND, command_handler=GetHistoryCommand())
