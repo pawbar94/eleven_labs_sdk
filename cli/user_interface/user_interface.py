@@ -21,7 +21,7 @@ from cli.user_interface.interface_definition import TO_SPEECH_COMMAND, INPUT_OPT
     GET_USER_INFO_COMMAND, GET_SUB_INFO_COMMAND, GET_SETTINGS_COMMAND, DELETE_VOICE_COMMAND, DELETE_SAMPLE_COMMAND, \
     ID_OPTION, DELETE_HISTORY_COMMAND, EDIT_SETTINGS_COMMAND, STABILITY_OPTION, SIMILARITY_BOOST_OPTION, \
     EDIT_VOICE_COMMAND, FILES_OPTION, DESCRIPTION_OPTION, LABELS_OPTION, ADD_VOICE_COMMAND, DOWNLOAD_SAMPLE_COMMAND, \
-    DOWNLOAD_HISTORY_COMMAND, DEFAULT_FLAG
+    DOWNLOAD_HISTORY_COMMAND, DEFAULT_FLAG, PREMADE_FLAG, GENERATED_FLAG
 from thirdparty.comlint_py import CommandLineInterface
 from eleven_labs_api.eleven_labs_api import ElevenLabsApi
 
@@ -66,7 +66,8 @@ class UserInterface:
                                description=f'Displays properties of all voices available on the account. If '
                                            f'{NAME_OPTION} option is used, the output will be filtered only for the '
                                            f'given voice.',
-                               allowed_options=[NAME_OPTION, LOG_LEVEL_OPTION])
+                               allowed_options=[NAME_OPTION, LOG_LEVEL_OPTION],
+                               allowed_flags=[PREMADE_FLAG, GENERATED_FLAG])
         self.__cli.add_command(command_name=GET_HISTORY_COMMAND,
                                description=f'Displays properties of all generated items. If {NAME_OPTION} option is '
                                            f'used, the output will be filtered only for the given voice.',
@@ -152,12 +153,16 @@ class UserInterface:
     def __define_flags(self) -> None:
         self.__cli.add_flag(flag_name=DEFAULT_FLAG,
                             description='If used, a default voice settings will be downloaded.')
+        self.__cli.add_flag(flag_name=PREMADE_FLAG,
+                            description='If used, only premade voices will be downloaded.')
+        self.__cli.add_flag(flag_name=GENERATED_FLAG,
+                            description='If used, only user generated voices will be downloaded.')
 
     def __register_command_handlers(self, api: ElevenLabsApi) -> None:
         self.__cli.add_command_handler(command_name=TO_SPEECH_COMMAND, command_handler=ToSpeechCommand(api))
         self.__cli.add_command_handler(command_name=TO_DIALOGUE_COMMAND, command_handler=ToDialogueCommand(api))
 
-        self.__cli.add_command_handler(command_name=GET_VOICES_COMMAND, command_handler=GetVoicesCommand())
+        self.__cli.add_command_handler(command_name=GET_VOICES_COMMAND, command_handler=GetVoicesCommand(api))
         self.__cli.add_command_handler(command_name=GET_HISTORY_COMMAND, command_handler=GetHistoryCommand())
         self.__cli.add_command_handler(command_name=GET_USER_INFO_COMMAND, command_handler=GetUserInfoCommand())
         self.__cli.add_command_handler(command_name=GET_SUB_INFO_COMMAND, command_handler=GetSubInfoCommand())
