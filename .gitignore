@@ -18,3 +18,7 @@ test/test_conversation_creator/__pycache__
 cli/__pycache__
 cli/commands/__pycache__
 cli/user_interface/__pycache__
+cli/commands/text_file_readers/__pycache__/
+cli/commands/text_file_readers/extensions/__pycache__/
+cli/commands/to_speech_converter/__pycache__/
+cli/commands/to_speech_converter/extensions/__pycache__/

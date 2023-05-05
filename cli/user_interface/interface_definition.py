@@ -32,5 +32,7 @@ LABELS_OPTION: str = '-labels'
 LOG_LEVEL_OPTION: str = '-log'
 
 DEFAULT_FLAG: str = '--default'
+PREMADE_FLAG: str = '--premade'
+GENERATED_FLAG: str = '--generated'
 
 DEFAULT_LOGGING_LEVEL: str = 'info'
