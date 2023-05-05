@@ -30,6 +30,7 @@ FILES_OPTION: str = '-files'
 DESCRIPTION_OPTION: str = '-description'
 LABELS_OPTION: str = '-labels'
 LOG_LEVEL_OPTION: str = '-log'
+TEXT_OPTION: str = '-text'
 
 DEFAULT_FLAG: str = '--default'
 PREMADE_FLAG: str = '--premade'

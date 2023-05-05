@@ -21,7 +21,7 @@ from cli.user_interface.interface_definition import TO_SPEECH_COMMAND, INPUT_OPT
     GET_USER_INFO_COMMAND, GET_SUB_INFO_COMMAND, GET_SETTINGS_COMMAND, DELETE_VOICE_COMMAND, DELETE_SAMPLE_COMMAND, \
     ID_OPTION, DELETE_HISTORY_COMMAND, EDIT_SETTINGS_COMMAND, STABILITY_OPTION, SIMILARITY_BOOST_OPTION, \
     EDIT_VOICE_COMMAND, FILES_OPTION, DESCRIPTION_OPTION, LABELS_OPTION, ADD_VOICE_COMMAND, DOWNLOAD_SAMPLE_COMMAND, \
-    DOWNLOAD_HISTORY_COMMAND, DEFAULT_FLAG, PREMADE_FLAG, GENERATED_FLAG
+    DOWNLOAD_HISTORY_COMMAND, DEFAULT_FLAG, PREMADE_FLAG, GENERATED_FLAG, TEXT_OPTION
 from thirdparty.comlint_py import CommandLineInterface
 from eleven_labs_api.eleven_labs_api import ElevenLabsApi
 
@@ -71,7 +71,7 @@ class UserInterface:
         self.__cli.add_command(command_name=GET_HISTORY_COMMAND,
                                description=f'Displays properties of all generated items. If {NAME_OPTION} option is '
                                            f'used, the output will be filtered only for the given voice.',
-                               allowed_options=[NAME_OPTION, LOG_LEVEL_OPTION])
+                               allowed_options=[NAME_OPTION, TEXT_OPTION, LOG_LEVEL_OPTION])
         self.__cli.add_command(command_name=GET_USER_INFO_COMMAND,
                                description='Displays properties of the user account.',
                                allowed_options=[LOG_LEVEL_OPTION])
@@ -146,6 +146,8 @@ class UserInterface:
                                           'multi-word description.')
         self.__cli.add_option(option_name=LABELS_OPTION,
                               description='Serialized string with labels for the new voice. Remember to use quotes.')
+        self.__cli.add_option(option_name=TEXT_OPTION,
+                              description='Text to search for when filtering history items')
         self.__cli.add_option(option_name=LOG_LEVEL_OPTION,
                               description='Specifies logging level of the application.',
                               allowed_values=['debug', 'info', 'warning', 'error'])
@@ -163,7 +165,7 @@ class UserInterface:
         self.__cli.add_command_handler(command_name=TO_DIALOGUE_COMMAND, command_handler=ToDialogueCommand(api))
 
         self.__cli.add_command_handler(command_name=GET_VOICES_COMMAND, command_handler=GetVoicesCommand(api))
-        self.__cli.add_command_handler(command_name=GET_HISTORY_COMMAND, command_handler=GetHistoryCommand())
+        self.__cli.add_command_handler(command_name=GET_HISTORY_COMMAND, command_handler=GetHistoryCommand(api))
         self.__cli.add_command_handler(command_name=GET_USER_INFO_COMMAND, command_handler=GetUserInfoCommand())
         self.__cli.add_command_handler(command_name=GET_SUB_INFO_COMMAND, command_handler=GetSubInfoCommand())
         self.__cli.add_command_handler(command_name=GET_SETTINGS_COMMAND, command_handler=GetSettingsCommand())

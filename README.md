@@ -30,6 +30,7 @@ Table of contents:
 &emsp;[Converting text to audio file](#converting_text_to_audio_file)<br>
 &emsp;[Converting text to dialogue audio](#converting_text_to_dialogue_audio)<br>
 &emsp;[Getting available voices](#getting_available_voices)<br>
+&emsp;[Getting generated items](#getting_generated_items)<br>
 
 ## <a name="what_is_it"></a>What is it?
 
@@ -551,4 +552,32 @@ You can also specify a single voice by providing its name:
 
 ```bash
 python run_el_cli.py get-voices -name Arnold
+```
+
+## <a name="getting_generated_items"></a>Getting generated items
+
+In order to get history of the generated items on your account, run the following command:
+
+```bash
+python run_el_cli.py get-history
+```
+
+If you want to filter the output by the voice name, use _-name_ option:
+
+```bash
+python run_el_cli.py get-history -name Arnold
+```
+
+If you want to filter the output by the generated text, use _-text_ option. Let's say you want to display only items
+which contained "how are you" text:
+
+```bash
+python run_el_cli.py get-history -text "how are you"
+```
+
+If you want precise filtering by the voice and the generated text, you can combine both above options. For example, to
+display only items which contained "how are you" text and were generated using Arnold voice, run the following command:
+
+```bash
+python run_el_cli.py get-history -name Arnold -text "how are you"
 ```
