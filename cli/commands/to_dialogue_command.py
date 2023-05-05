@@ -27,8 +27,8 @@ class ToDialogueCommand(BaseCommand):
         with open(ACTORS_FILE_PATH) as file:
             names_map: Dict[str, str] = json.load(file)
 
-        voice_map: Dict[ActorName, Voice] = {}
         all_voices: List[Voice] = self._api.get_voices()
+        voice_map: Dict[ActorName, Voice] = {}
 
         for actor_name, voice_name in names_map.items():
             voice_map[actor_name] = self._find_voice(all_voices, voice_name)

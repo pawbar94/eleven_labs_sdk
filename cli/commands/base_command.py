@@ -1,7 +1,6 @@
 import logging
 from abc import abstractmethod
 from typing import List
-
 from cli.user_interface.interface_definition import LOG_LEVEL_OPTION, DEFAULT_LOGGING_LEVEL
 from thirdparty.comlint_py import CommandHandlerInterface, ParsedCommand
 from eleven_labs_api.responses.voice_model.voice import Voice
@@ -36,9 +35,7 @@ class BaseCommand(CommandHandlerInterface):
         return filtered_voice[0]
 
     def __configure_logger(self, command: ParsedCommand) -> None:
-        if command.is_option_used(LOG_LEVEL_OPTION):
-            logging.basicConfig(level=logging.getLevelName(command.options[LOG_LEVEL_OPTION].upper()),
-                                format='[%(levelname)s][%(name)s] %(message)s')
-        else:
-            logging.basicConfig(level=logging.getLevelName(DEFAULT_LOGGING_LEVEL.upper()),
-                                format='[%(levelname)s][%(name)s] %(message)s')
+        logging_level: str = DEFAULT_LOGGING_LEVEL if not command.is_option_used(LOG_LEVEL_OPTION) \
+                                                   else command.options[LOG_LEVEL_OPTION]
+        logging.basicConfig(level=logging.getLevelName(logging_level.upper()),
+                            format='[%(levelname)s][%(name)s] %(message)s')
