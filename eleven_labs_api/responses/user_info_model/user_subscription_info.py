@@ -17,8 +17,7 @@ class UserSubscriptionInfo:
     can_extend_voice_limit: bool
     can_use_instant_voice_cloning: bool
     can_use_professional_voice_cloning: bool
-    available_models: List[Model]
-    can_use_delayed_payment_methods: bool
     currency: str
     status: str
     next_invoice: Invoice
+    has_open_invoices: bool

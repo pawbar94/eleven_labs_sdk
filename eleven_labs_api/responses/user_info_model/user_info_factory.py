@@ -13,6 +13,7 @@ class UserInfoFactory:
             subscription=UserInfoFactory.__create_subscription(user_info_properties["subscription"]),
             is_new_user=user_info_properties["is_new_user"],
             xi_api_key=user_info_properties["xi_api_key"],
+            can_use_delayed_payment_methods=user_info_properties["can_use_delayed_payment_methods"]
         )
 
     @staticmethod
@@ -28,8 +29,6 @@ class UserInfoFactory:
                             can_extend_voice_limit=subscription_properties["can_extend_voice_limit"],
                             can_use_instant_voice_cloning=subscription_properties["can_use_instant_voice_cloning"],
                             can_use_professional_voice_cloning=subscription_properties["can_use_professional_voice_cloning"],
-                            available_models=UserInfoFactory.__create_available_models(subscription_properties["available_models"]),
-                            can_use_delayed_payment_methods=subscription_properties["can_use_delayed_payment_methods"],
                             currency=subscription_properties["currency"],
                             status=subscription_properties["status"],
                             )

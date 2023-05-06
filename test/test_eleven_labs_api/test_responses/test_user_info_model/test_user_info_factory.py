@@ -17,42 +17,12 @@ class TestUserInfoFactory(unittest.TestCase):
                 "can_extend_voice_limit": True,
                 "can_use_instant_voice_cloning": True,
                 "can_use_professional_voice_cloning": True,
-                "available_models": [
-                    {
-                        "model_id": "test_model_id_1",
-                        "display_name": "test_display_name_1",
-                        "supported_language": [
-                            {
-                                "iso_code": "test_iso_code_1_1",
-                                "display_name": "test_display_name_1_1"
-                            },
-                            {
-                                "iso_code": "test_iso_code_1_2",
-                                "display_name": "test_display_name_1_2"
-                            }
-                        ]
-                    },
-                    {
-                        "model_id": "test_model_id_2",
-                        "display_name": "test_display_name_2",
-                        "supported_language": [
-                            {
-                                "iso_code": "test_iso_code_2_1",
-                                "display_name": "test_display_name_2_1"
-                            },
-                            {
-                                "iso_code": "test_iso_code_2_2",
-                                "display_name": "test_display_name_2_2"
-                            }
-                        ]
-                    }
-                ],
-                "can_use_delayed_payment_methods": True,
                 "currency": "usd",
                 "status": "trialing"
             },
             "is_new_user": True,
-            "xi_api_key": "test_xi_api_key"
+            "xi_api_key": "test_xi_api_key",
+            "can_use_delayed_payment_methods": True
         }
 
         user_info = UserInfoFactory.create(user_info_properties)
@@ -68,20 +38,8 @@ class TestUserInfoFactory(unittest.TestCase):
         self.assertEqual(user_info.subscription.can_extend_voice_limit, True)
         self.assertEqual(user_info.subscription.can_use_instant_voice_cloning, True)
         self.assertEqual(user_info.subscription.can_use_professional_voice_cloning, True)
-        self.assertEqual(user_info.subscription.available_models[0].id, "test_model_id_1")
-        self.assertEqual(user_info.subscription.available_models[0].name, "test_display_name_1")
-        self.assertEqual(user_info.subscription.available_models[0].supported_language[0].iso_code, "test_iso_code_1_1")
-        self.assertEqual(user_info.subscription.available_models[0].supported_language[0].name, "test_display_name_1_1")
-        self.assertEqual(user_info.subscription.available_models[0].supported_language[1].iso_code, "test_iso_code_1_2")
-        self.assertEqual(user_info.subscription.available_models[0].supported_language[1].name, "test_display_name_1_2")
-        self.assertEqual(user_info.subscription.available_models[1].id, "test_model_id_2")
-        self.assertEqual(user_info.subscription.available_models[1].name, "test_display_name_2")
-        self.assertEqual(user_info.subscription.available_models[1].supported_language[0].iso_code, "test_iso_code_2_1")
-        self.assertEqual(user_info.subscription.available_models[1].supported_language[0].name, "test_display_name_2_1")
-        self.assertEqual(user_info.subscription.available_models[1].supported_language[1].iso_code, "test_iso_code_2_2")
-        self.assertEqual(user_info.subscription.available_models[1].supported_language[1].name, "test_display_name_2_2")
-        self.assertEqual(user_info.subscription.can_use_delayed_payment_methods, True)
         self.assertEqual(user_info.subscription.currency, "usd")
         self.assertEqual(user_info.subscription.status, "trialing")
         self.assertEqual(user_info.is_new_user, True)
         self.assertEqual(user_info.xi_api_key, "test_xi_api_key")
+        self.assertEqual(user_info.can_use_delayed_payment_methods, True)
