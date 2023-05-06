@@ -1,6 +1,10 @@
-from thirdparty.comlint_py import CommandHandlerInterface, ParsedCommand
+from cli.commands.base_command import BaseCommand
+from thirdparty.comlint_py import ParsedCommand
+from eleven_labs_api.responses.user_info_model.user_subscription_info import UserSubscriptionInfo
 
 
-class GetSubInfoCommand(CommandHandlerInterface):
+class GetSubInfoCommand(BaseCommand):
     def run(self, command: ParsedCommand) -> None:
-        print('Not implemented yet')
+        subscription_info: UserSubscriptionInfo = self._api.get_user_subscription_info()
+
+        print(subscription_info)

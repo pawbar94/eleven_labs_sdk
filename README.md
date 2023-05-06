@@ -32,6 +32,7 @@ Table of contents:
 &emsp;[Getting available voices](#cli_getting_available_voices)<br>
 &emsp;[Getting generated items](#cli_getting_generated_items)<br>
 &emsp;[Getting user info](#cli_getting_user_info)<br>
+&emsp;[Getting user subscription info](#cli_getting_user_subscription_info)<br>
 
 ## <a name="what_is_it"></a>What is it?
 
@@ -589,4 +590,12 @@ In order to get information about your account, run the following command:
 
 ```bash
 python run_el_cli.py get-user-info
+```
+
+## <a name="cli_getting_user_subscription_info"></a>Getting user subscription info
+
+In order to get information about your subscription, run the following command:
+
+```bash
+python run_el_cli.py get-sub-info
 ```
