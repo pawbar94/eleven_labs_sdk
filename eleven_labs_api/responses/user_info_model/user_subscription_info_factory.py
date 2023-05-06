@@ -21,11 +21,10 @@ class UserSubscriptionInfoFactory:
             can_extend_voice_limit=user_subscription_info_properties["can_extend_voice_limit"],
             can_use_instant_voice_cloning=user_subscription_info_properties["can_use_instant_voice_cloning"],
             can_use_professional_voice_cloning=user_subscription_info_properties["can_use_professional_voice_cloning"],
-            available_models=UserSubscriptionInfoFactory.__create_available_models(user_subscription_info_properties["available_models"]),
-            can_use_delayed_payment_methods=user_subscription_info_properties["can_use_delayed_payment_methods"],
             currency=user_subscription_info_properties["currency"],
             status=user_subscription_info_properties["status"],
-            next_invoice=UserSubscriptionInfoFactory.__create_next_invoice(user_subscription_info_properties["next_invoice"])
+            next_invoice=UserSubscriptionInfoFactory.__create_next_invoice(user_subscription_info_properties["next_invoice"]),
+            has_open_invoices=user_subscription_info_properties["has_open_invoices"]
         )
 
     @staticmethod

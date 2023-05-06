@@ -27,10 +27,11 @@ Table of contents:
 &emsp;[Getting user info](#getting_user_info)<br>
 [Conversation creator](#conversation_creator)<br>
 [Command line interface application](#command_line_interface_application)<br>
-&emsp;[Converting text to audio file](#converting_text_to_audio_file)<br>
-&emsp;[Converting text to dialogue audio](#converting_text_to_dialogue_audio)<br>
-&emsp;[Getting available voices](#getting_available_voices)<br>
-&emsp;[Getting generated items](#getting_generated_items)<br>
+&emsp;[Converting text to audio file](#cli_converting_text_to_audio_file)<br>
+&emsp;[Converting text to dialogue audio](#cli_converting_text_to_dialogue_audio)<br>
+&emsp;[Getting available voices](#cli_getting_available_voices)<br>
+&emsp;[Getting generated items](#cli_getting_generated_items)<br>
+&emsp;[Getting user info](#cli_getting_user_info)<br>
 
 ## <a name="what_is_it"></a>What is it?
 
@@ -432,7 +433,7 @@ This application uses __Comlint__ as a main framework for parsing command line a
 concepts. You can find more information about Comlint [here](https://github.com/pawbar94/comlint_cpp). For example, if
 you run the application with no argument (or with _-h_ or _--help_ or _help_), you will see the application's help.
 
-## <a name="converting_text_to_audio_file"></a>Converting text to audio file
+## <a name="cli_converting_text_to_audio_file"></a>Converting text to audio file
 
 In order to convert text to audio file, prepare a file with text you want to convert. Currently supported text file
 extensions are:
@@ -464,7 +465,7 @@ Currently supported audio files extensions are:
 * .mp3
 * .mpeg
 
-## <a name="converting_text_to_dialogue_audio"></a>Converting text to dialogue audio
+## <a name="cli_converting_text_to_dialogue_audio"></a>Converting text to dialogue audio
 
 In order to convert a textual dialogue to a dialogue audio, first of all you need to prepare a text file with the
 dialogue. It may be .txt or .docx file, but for now it must have the following format:
@@ -527,7 +528,7 @@ see the following output:
 [INFO][ConversationCreator] Dialogue saved to /path/to/project/dialogue.mp3 file
 ```
 
-## <a name="getting_available_voices"></a>Getting available voices
+## <a name="cli_getting_available_voices"></a>Getting available voices
 
 In order to get all voices available on your account, run the following command:
 
@@ -554,7 +555,7 @@ You can also specify a single voice by providing its name:
 python run_el_cli.py get-voices -name Arnold
 ```
 
-## <a name="getting_generated_items"></a>Getting generated items
+## <a name="cli_getting_generated_items"></a>Getting generated items
 
 In order to get history of the generated items on your account, run the following command:
 
@@ -580,4 +581,12 @@ display only items which contained "how are you" text and were generated using A
 
 ```bash
 python run_el_cli.py get-history -name Arnold -text "how are you"
+```
+
+## <a name="cli_getting_user_info"></a>Getting user info
+
+In order to get information about your account, run the following command:
+
+```bash
+python run_el_cli.py get-user-info
 ```

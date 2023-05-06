@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from typing import List
-from eleven_labs_api.responses.user_info_model.invoice import Invoice
+
 from eleven_labs_api.responses.user_info_model.model import Model
 
 
 @dataclass
-class UserSubscriptionInfo:
+class Subscription:
     tier: str
     character_count: int
     character_limit: int
@@ -17,7 +17,7 @@ class UserSubscriptionInfo:
     can_extend_voice_limit: bool
     can_use_instant_voice_cloning: bool
     can_use_professional_voice_cloning: bool
+    available_models: List[Model]
+    can_use_delayed_payment_methods: bool
     currency: str
     status: str
-    next_invoice: Invoice
-    has_open_invoices: bool

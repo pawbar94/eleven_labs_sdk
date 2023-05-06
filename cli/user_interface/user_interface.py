@@ -166,7 +166,7 @@ class UserInterface:
 
         self.__cli.add_command_handler(command_name=GET_VOICES_COMMAND, command_handler=GetVoicesCommand(api))
         self.__cli.add_command_handler(command_name=GET_HISTORY_COMMAND, command_handler=GetHistoryCommand(api))
-        self.__cli.add_command_handler(command_name=GET_USER_INFO_COMMAND, command_handler=GetUserInfoCommand())
+        self.__cli.add_command_handler(command_name=GET_USER_INFO_COMMAND, command_handler=GetUserInfoCommand(api))
         self.__cli.add_command_handler(command_name=GET_SUB_INFO_COMMAND, command_handler=GetSubInfoCommand())
         self.__cli.add_command_handler(command_name=GET_SETTINGS_COMMAND, command_handler=GetSettingsCommand())
 
