@@ -1,0 +1,2 @@
+class MissingVoiceIdArgument(Exception):
+    pass

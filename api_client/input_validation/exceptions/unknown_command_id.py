@@ -1,0 +1,2 @@
+class UnknownCommandId(Exception):
+    pass
