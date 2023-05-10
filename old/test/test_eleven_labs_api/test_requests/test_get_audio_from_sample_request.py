@@ -1,6 +1,6 @@
 import unittest
 
-from old.eleven_labs_api.requests.exceptions.empty_sample_id import EmptySampleId
+from api_client.input_validation.exceptions.empty_sample_id import EmptySampleId
 from old.eleven_labs_api.requests.exceptions.empty_voice_id import EmptyVoiceId
 from old.eleven_labs_api.requests.get_audio_from_sample_request import GetAudioFromSampleRequest
 

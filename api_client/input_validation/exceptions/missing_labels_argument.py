@@ -1,0 +1,2 @@
+class MissingLabelsArgument(Exception):
+    pass

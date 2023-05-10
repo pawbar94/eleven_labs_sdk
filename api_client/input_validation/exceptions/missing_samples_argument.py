@@ -1,0 +1,2 @@
+class MissingSamplesArgument(Exception):
+    pass

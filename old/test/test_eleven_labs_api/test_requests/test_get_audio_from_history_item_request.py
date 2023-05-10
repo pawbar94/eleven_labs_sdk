@@ -1,6 +1,6 @@
 import unittest
 
-from old.eleven_labs_api.requests.exceptions.empty_history_item_id import EmptyHistoryItemId
+from api_client.input_validation.exceptions.empty_history_item_id import EmptyHistoryItemId
 from old.eleven_labs_api.requests.get_audio_from_history_item_request import GetAudioFromHistoryItemRequest
 
 
