@@ -8,8 +8,8 @@ class ParamsBuilder:
     def __init__(self, command_params_builders: Dict[CommandId, ParamsBuilderInterface]):
         self.__command_params_builders: Dict[CommandId, ParamsBuilderInterface] = command_params_builders
 
-    def build(self, command_id: CommandId, **kwargs) -> None:
+    def build(self, command_id: CommandId, **kwargs) -> dict:
         if command_id not in self.__command_params_builders:
             raise UnknownCommandId(f'Unable to build params for the given command - unknown command ID: {command_id}')
 
-        self.__command_params_builders[command_id].build(**kwargs)
+        return self.__command_params_builders[command_id].build(**kwargs)

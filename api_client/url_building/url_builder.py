@@ -8,8 +8,8 @@ class UrlBuilder:
     def __init__(self, command_url_builders: Dict[CommandId, UrlBuilderInterface]):
         self.__command_url_builders: Dict[CommandId, UrlBuilderInterface] = command_url_builders
 
-    def build(self, command_id: CommandId, **kwargs) -> None:
+    def build(self, command_id: CommandId, **kwargs) -> str:
         if command_id not in self.__command_url_builders:
             raise UnknownCommandId(f'Unable to build URL for the given command - unknown command ID: {command_id}')
 
-        self.__command_url_builders[command_id].build(**kwargs)
+        return self.__command_url_builders[command_id].build(**kwargs)

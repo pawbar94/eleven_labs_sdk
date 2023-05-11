@@ -1,14 +1,14 @@
 import json
 from typing import List, Dict, Any
+from requests import Response
 from api_client.command_id import CommandId
 from api_client.input_validation.input_validator import InputValidator
+from api_client.params_building.params_builder import ParamsBuilder
+from api_client.request_handling.request_handler import RequestHandler
+from api_client.url_building.url_builder import UrlBuilder
 from common.history_item_properties.history_item import HistoryItem
 from api_client.latency_optimization import LatencyOptimization
-from api_client.params_building.params_builder_interface import ParamsBuilderInterface
-from api_client.request_code import RequestCode
-from api_client.request_handler_interface import RequestHandlerInterface
 from api_client.response_handler_interface import ResponseHandlerInterface
-from api_client.url_building.url_builder_interface import UrlBuilderInterface
 from common.user_info_properties.user_info import UserInfo
 from common.user_info_properties.user_subscription_info import UserSubscriptionInfo
 from common.voice_model.model import Model
@@ -21,30 +21,36 @@ logger = getLogger('ElevenLabsApi')
 
 
 class ApiClient:
-    def __init__(self, api_key: str, input_validator: InputValidator, url_builder: UrlBuilderInterface,
-                 params_builder: ParamsBuilderInterface, request_handler: RequestHandlerInterface,
-                 response_handler: ResponseHandlerInterface):
-        self.__api_key: str = api_key
+    def __init__(self, input_validator: InputValidator, url_builder: UrlBuilder, params_builder: ParamsBuilder,
+                 request_handler: RequestHandler, response_handler: ResponseHandlerInterface):
         self.__input_validator: InputValidator = input_validator
-        self.__url_builder: UrlBuilderInterface = url_builder
-        self.__params_builder: ParamsBuilderInterface = params_builder
-        self.__request_handler: RequestHandlerInterface = request_handler
+        self.__url_builder: UrlBuilder = url_builder
+        self.__params_builder: ParamsBuilder = params_builder
+        self.__request_handler: RequestHandler = request_handler
         self.__response_handler: ResponseHandlerInterface = response_handler
 
-    def text_to_speech(self, text: str, voice_id: str, latency: LatencyOptimization = LatencyOptimization.NONE) -> bytes:
+    def text_to_speech(self, voice_id: str, text: str, model_id: str, stability: float, similarity_boost: float,
+                       latency: LatencyOptimization = LatencyOptimization.NONE) -> bytes:
         """
         Converts a given text to speech.
 
-        :param text: The text to convert.
         :param voice_id: ID of the voice to use for the conversion.
+        :param text: The text to convert.
+        :param model_id: ID of the model to use for the conversion.
+        :param stability: The stability parameter value.
+        :param similarity_boost: The similarity boost parameter value.
         :param latency: An optional parameter to optimize the streaming latency of the conversion.
         :return: The binary data of the resulting audio file.
         """
         logger.info(f'Converting text to speech using voice with ID {voice_id}')
+        logger.debug(f'Model ID: {model_id}')
+        logger.debug(f'Stability: {stability}')
+        logger.debug(f'Similarity boost: {similarity_boost}')
         logger.debug(f'Streaming latency optimization: {latency}')
         logger.debug(f'Text to convert: {text}')
 
-        return self.__handle_request(CommandId.TEXT_TO_SPEECH, RequestCode.POST, text=text, voice_id=voice_id, latency=latency)
+        return self.__handle_request(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text, model_id=model_id,
+                                     stability=stability, similarity_boost=similarity_boost, latency=latency)
 
     def get_models(self) -> List[Model]:
         """
@@ -54,7 +60,7 @@ class ApiClient:
         """
         logger.info(f'Getting available models')
 
-        return self.__handle_request(CommandId.GET_MODELS, RequestCode.GET)
+        return self.__handle_request(CommandId.GET_MODELS)
 
     def get_voices(self) -> List[Voice]:
         """
@@ -64,7 +70,7 @@ class ApiClient:
         """
         logger.info(f'Getting available voices')
 
-        return self.__handle_request(CommandId.GET_VOICES, RequestCode.GET)
+        return self.__handle_request(CommandId.GET_VOICES)
 
     def get_voice_settings(self, voice_id: str = '') -> VoiceSettings:
         """
@@ -78,7 +84,7 @@ class ApiClient:
                     f'{" for voice with ID " + voice_id if voice_id else ""}')
 
         command_id: CommandId = CommandId.GET_VOICE_SETTINGS if voice_id else CommandId.GET_DEFAULT_VOICE_SETTINGS
-        return self.__handle_request(command_id, RequestCode.GET, voice_id=voice_id)
+        return self.__handle_request(command_id, voice_id=voice_id)
 
     def get_voice(self, voice_id: str) -> Voice:
         """
@@ -89,7 +95,7 @@ class ApiClient:
         """
         logger.info(f'Getting voice with ID {voice_id}')
 
-        return self.__handle_request(CommandId.GET_VOICE, RequestCode.GET, voice_id=voice_id)
+        return self.__handle_request(CommandId.GET_VOICE, voice_id=voice_id)
 
     def delete_voice(self, voice_id: str) -> str:
         """
@@ -100,7 +106,7 @@ class ApiClient:
         """
         logger.info(f'Deleting voice with ID {voice_id}')
 
-        return self.__handle_request(CommandId.DELETE_VOICE, RequestCode.DELETE, voice_id=voice_id)
+        return self.__handle_request(CommandId.DELETE_VOICE, voice_id=voice_id)
 
     def edit_voice_settings(self, voice_id: str, settings: VoiceSettings) -> str:
         """
@@ -112,7 +118,7 @@ class ApiClient:
         """
         logger.info(f'Changing settings for voice with ID {voice_id} to {settings}')
 
-        return self.__handle_request(CommandId.EDIT_VOICE_SETTINGS, RequestCode.POST, voice_id=voice_id,
+        return self.__handle_request(CommandId.EDIT_VOICE_SETTINGS, voice_id=voice_id,
                                      stability=settings.stability, similarity_boost=settings.similarity_boost)
 
     def add_voice(self, name: str, samples: List[bytes], description: str, labels: Dict[str, str]) -> VoiceID:
@@ -128,7 +134,7 @@ class ApiClient:
         logger.info(f'Adding new voice with name {name}')
         logger.debug(f'Num of samples: {len(samples)}, description: {description}, labels: {labels}')
 
-        return self.__handle_request(CommandId.ADD_VOICE, RequestCode.POST, name=name, samples=samples,
+        return self.__handle_request(CommandId.ADD_VOICE, name=name, samples=samples,
                                      description=description, labels=labels)
 
     def edit_voice(self, voice_id: str, new_name: str, new_samples: List[bytes], new_description: str,
@@ -147,7 +153,7 @@ class ApiClient:
         logger.debug(f'New name: {new_name}, num of samples: {len(new_samples)}, new description: {new_description}, '
                      f'new labels: {new_labels}')
 
-        return self.__handle_request(CommandId.EDIT_VOICE, RequestCode.POST, voice_id=voice_id, name=new_name,
+        return self.__handle_request(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_name,
                                      samples=new_samples, description=new_description, labels=new_labels)
 
     def delete_sample(self, voice_id: str, sample_id: str) -> str:
@@ -160,7 +166,7 @@ class ApiClient:
         """
         logger.info(f'Deleting sample with ID {sample_id} from voice with ID {voice_id}')
 
-        return self.__handle_request(CommandId.DELETE_SAMPLE, RequestCode.DELETE, voice_id=voice_id,
+        return self.__handle_request(CommandId.DELETE_SAMPLE, voice_id=voice_id,
                                      sample_id=sample_id)
 
     def get_audio_from_sample(self, voice_id: str, sample_id: str) -> bytes:
@@ -173,7 +179,7 @@ class ApiClient:
         """
         logger.info(f'Getting audio data for sample with ID {sample_id} from voice with ID {voice_id}')
 
-        return self.__handle_request(CommandId.GET_AUDIO_FROM_SAMPLE, RequestCode.GET, voice_id=voice_id,
+        return self.__handle_request(CommandId.GET_AUDIO_FROM_SAMPLE, voice_id=voice_id,
                                      sample_id=sample_id)
 
     def get_generated_items(self) -> List[HistoryItem]:
@@ -184,7 +190,7 @@ class ApiClient:
         """
         logger.info('Getting generated items')
 
-        return self.__handle_request(CommandId.GET_GENERATED_ITEMS, RequestCode.GET)
+        return self.__handle_request(CommandId.GET_GENERATED_ITEMS)
 
     def get_history_item(self, history_item_id: str) -> HistoryItem:
         """
@@ -195,7 +201,7 @@ class ApiClient:
         """
         logger.info(f'Getting history item with ID {history_item_id}')
 
-        return self.__handle_request(CommandId.GET_HISTORY_ITEM_BY_ID, RequestCode.GET, history_item_id=history_item_id)
+        return self.__handle_request(CommandId.GET_HISTORY_ITEM_BY_ID, history_item_id=history_item_id)
 
     def delete_history_item(self, history_item_id: str) -> str:
         """
@@ -206,8 +212,7 @@ class ApiClient:
         """
         logger.info(f'Deleting history item with ID {history_item_id}')
 
-        return self.__handle_request(CommandId.DELETE_HISTORY_ITEM, RequestCode.DELETE,
-                                     history_item_id=history_item_id)
+        return self.__handle_request(CommandId.DELETE_HISTORY_ITEM, history_item_id=history_item_id)
 
     def get_audio_from_history_item(self, history_item_id: str) -> bytes:
         """
@@ -218,8 +223,7 @@ class ApiClient:
         """
         logger.info(f'Getting audio data from history item with ID {history_item_id}')
 
-        return self.__handle_request(CommandId.GET_AUDIO_FROM_HISTORY_ITEM, RequestCode.GET,
-                                     history_item_id=history_item_id)
+        return self.__handle_request(CommandId.GET_AUDIO_FROM_HISTORY_ITEM, history_item_id=history_item_id)
 
     def download_history_items(self, history_items_ids: List[str]) -> List[bytes]:
         """
@@ -230,8 +234,7 @@ class ApiClient:
         """
         logger.info(f'Downloading audio data from history items with IDs {history_items_ids}')
 
-        return self.__handle_request(CommandId.DOWNLOAD_HISTORY_ITEMS, RequestCode.POST,
-                                     history_items_ids=history_items_ids)
+        return self.__handle_request(CommandId.DOWNLOAD_HISTORY_ITEMS, history_items_ids=history_items_ids)
 
     def get_user_subscription_info(self) -> UserSubscriptionInfo:
         """
@@ -241,7 +244,7 @@ class ApiClient:
         """
         logger.info('Getting user subscription info')
 
-        return self.__handle_request(CommandId.GET_USER_SUBSCRIPTION_INFO, RequestCode.GET)
+        return self.__handle_request(CommandId.GET_USER_SUBSCRIPTION_INFO)
 
     def get_user_info(self) -> UserInfo:
         """
@@ -251,7 +254,7 @@ class ApiClient:
         """
         logger.info('Getting user info')
 
-        return self.__handle_request(CommandId.GET_USER_INFO, RequestCode.GET)
+        return self.__handle_request(CommandId.GET_USER_INFO)
 
     def get_api_version(self) -> str:
         """
@@ -275,11 +278,11 @@ class ApiClient:
         with open(API_SPEC_FILE_PATH) as file:
             return json.loads(file.read())
 
-    def __handle_request(self, command_id: CommandId, request_code: RequestCode, **kwargs) -> Any:
+    def __handle_request(self, command_id: CommandId, **kwargs) -> Any:
         self.__input_validator.validate(command_id, **kwargs)
 
         url: str = self.__url_builder.build(command_id, **kwargs)
         params: dict = self.__params_builder.build(command_id, **kwargs)
-        response: bytes = self.__request_handler.send(request_code, url, params)
+        response: Response = self.__request_handler.send(command_id, url, params)
 
         return self.__response_handler.process(command_id, response)
