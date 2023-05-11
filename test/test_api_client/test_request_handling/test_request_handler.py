@@ -2,7 +2,6 @@ import unittest
 from unittest.mock import Mock
 from api_client.command_id import CommandId
 from api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
-from api_client.request_code import RequestCode
 from api_client.request_handling.request_handler import RequestHandler
 from api_client.request_handling.request_handler_interface import RequestHandlerInterface
 

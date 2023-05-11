@@ -10,9 +10,9 @@ class BaseRequestHandler(RequestHandlerInterface):
     def __init__(self):
         super().__init__()
 
-    def _execute_request(self, request_code: RequestCode, url: str, params: dict) -> Response:
+    def _execute_request(self, api_key: str, request_code: RequestCode, url: str, params: dict) -> Response:
         args: dict = {
-            'headers': self.__create_headers(params['api_key']),
+            'headers': self.__create_headers(api_key),
         }
 
         if params:
