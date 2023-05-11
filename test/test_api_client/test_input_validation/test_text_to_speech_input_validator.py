@@ -11,7 +11,8 @@ from api_client.input_validation.text_to_speech_input_validator import TextToSpe
 class TestTextToSpeechInputValidator(unittest.TestCase):
     def test_validate_raises_no_exception_for_proper_params(self):
         validator = TextToSpeechInputValidator()
-        validator.validate(text="test text", voice_id="test ID", latency=0)
+        validator.validate(voice_id="test ID", text="test text", model_id='some-model-id', stability=0.25,
+                           similarity_boost=0.75, latency=0)
 
     def test_validate_raise_proper_exception_if_text_not_provided(self):
         validator = TextToSpeechInputValidator()

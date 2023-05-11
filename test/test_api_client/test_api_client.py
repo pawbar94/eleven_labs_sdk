@@ -1,19 +1,19 @@
 import unittest
 from unittest.mock import Mock
 from api_client.command_id import CommandId
-from api_client.eleven_labs_api import ElevenLabsApi
+from api_client.api_client import ApiClient
 from api_client.input_validation.input_validator import InputValidator
 from api_client.latency_optimization import LatencyOptimization
-from api_client.params_builder_interface import ParamsBuilderInterface
+from api_client.params_building.params_builder_interface import ParamsBuilderInterface
 from api_client.request_code import RequestCode
 from api_client.request_handler_interface import RequestHandlerInterface
 from api_client.response_handler_interface import ResponseHandlerInterface
-from api_client.url_builder_interface import UrlBuilderInterface
+from api_client.url_building.url_builder_interface import UrlBuilderInterface
 from common.voice_properties.voice_settings import VoiceSettings
 
 
 def create_mocks():
-    return Mock(spec=InputValidator), Mock(spec=UrlBuilderInterface), Mock(spec=ParamsBuilderInterface),\
+    return Mock(spec=InputValidator), Mock(spec=UrlBuilderInterface), Mock(spec=ParamsBuilderInterface), \
         Mock(spec=RequestHandlerInterface), Mock(spec=ResponseHandlerInterface)
 
 
@@ -21,7 +21,7 @@ def create_eleven_labs_api_client(input_validator: InputValidator, url_builder: 
                                   params_builder: ParamsBuilderInterface, request_handler: RequestHandlerInterface,
                                   response_handler: ResponseHandlerInterface):
     api_key: str = '123'
-    return ElevenLabsApi(api_key, input_validator, url_builder, params_builder, request_handler, response_handler)
+    return ApiClient(api_key, input_validator, url_builder, params_builder, request_handler, response_handler)
 
 
 class TestElevenLabsApiClient(unittest.TestCase):
@@ -38,7 +38,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
 
         input_validator.validate.assert_called_with(CommandId.TEXT_TO_SPEECH, text=text, voice_id=voice_id,
                                                     latency=latency)
-        url_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH)
+        url_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, text=text, voice_id=voice_id, latency=latency)
         params_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, text=text, voice_id=voice_id, latency=latency)
         request_handler.send.assert_called_with(RequestCode.POST, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -56,7 +56,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
 
         input_validator.validate.assert_called_with(CommandId.TEXT_TO_SPEECH, text=text, voice_id=voice_id,
                                                     latency=latency)
-        url_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH)
+        url_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, text=text, voice_id=voice_id, latency=latency)
         params_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, text=text, voice_id=voice_id, latency=latency)
         request_handler.send.assert_called_with(RequestCode.POST, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -97,7 +97,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.get_voice_settings()
 
         input_validator.validate.assert_called_with(CommandId.GET_DEFAULT_VOICE_SETTINGS, voice_id='')
-        url_builder.build.assert_called_with(CommandId.GET_DEFAULT_VOICE_SETTINGS)
+        url_builder.build.assert_called_with(CommandId.GET_DEFAULT_VOICE_SETTINGS, voice_id='')
         params_builder.build.assert_called_with(CommandId.GET_DEFAULT_VOICE_SETTINGS, voice_id='')
         request_handler.send.assert_called_with(RequestCode.GET, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -113,7 +113,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.get_voice_settings(voice_id)
 
         input_validator.validate.assert_called_with(CommandId.GET_VOICE_SETTINGS, voice_id=voice_id)
-        url_builder.build.assert_called_with(CommandId.GET_VOICE_SETTINGS)
+        url_builder.build.assert_called_with(CommandId.GET_VOICE_SETTINGS, voice_id=voice_id)
         params_builder.build.assert_called_with(CommandId.GET_VOICE_SETTINGS, voice_id=voice_id)
         request_handler.send.assert_called_with(RequestCode.GET, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -129,7 +129,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.get_voice(voice_id)
 
         input_validator.validate.assert_called_with(CommandId.GET_VOICE, voice_id=voice_id)
-        url_builder.build.assert_called_with(CommandId.GET_VOICE)
+        url_builder.build.assert_called_with(CommandId.GET_VOICE, voice_id=voice_id)
         params_builder.build.assert_called_with(CommandId.GET_VOICE, voice_id=voice_id)
         request_handler.send.assert_called_with(RequestCode.GET, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -144,7 +144,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.delete_voice(voice_id)
 
         input_validator.validate.assert_called_with(CommandId.DELETE_VOICE, voice_id=voice_id)
-        url_builder.build.assert_called_with(CommandId.DELETE_VOICE)
+        url_builder.build.assert_called_with(CommandId.DELETE_VOICE, voice_id=voice_id)
         params_builder.build.assert_called_with(CommandId.DELETE_VOICE, voice_id=voice_id)
         request_handler.send.assert_called_with(RequestCode.DELETE, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -162,7 +162,9 @@ class TestElevenLabsApiClient(unittest.TestCase):
         input_validator.validate.assert_called_with(CommandId.EDIT_VOICE_SETTINGS, voice_id=voice_id,
                                                     stability=voice_settings.stability,
                                                     similarity_boost=voice_settings.similarity_boost)
-        url_builder.build.assert_called_with(CommandId.EDIT_VOICE_SETTINGS)
+        url_builder.build.assert_called_with(CommandId.EDIT_VOICE_SETTINGS, voice_id=voice_id,
+                                             stability=voice_settings.stability,
+                                             similarity_boost=voice_settings.similarity_boost)
         params_builder.build.assert_called_with(CommandId.EDIT_VOICE_SETTINGS, voice_id=voice_id,
                                                 stability=voice_settings.stability,
                                                 similarity_boost=voice_settings.similarity_boost)
@@ -185,7 +187,8 @@ class TestElevenLabsApiClient(unittest.TestCase):
 
         input_validator.validate.assert_called_with(CommandId.ADD_VOICE, name=voice_name, samples=samples,
                                                     description=description, labels=lables)
-        url_builder.build.assert_called_with(CommandId.ADD_VOICE)
+        url_builder.build.assert_called_with(CommandId.ADD_VOICE, name=voice_name, samples=samples,
+                                             description=description, labels=lables)
         params_builder.build.assert_called_with(CommandId.ADD_VOICE, name=voice_name, samples=samples,
                                                 description=description, labels=lables)
         request_handler.send.assert_called_with(RequestCode.POST, url_builder.build.return_value,
@@ -209,7 +212,9 @@ class TestElevenLabsApiClient(unittest.TestCase):
         input_validator.validate.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_voice_name,
                                                     samples=new_samples, description=new_description,
                                                     labels=new_lables)
-        url_builder.build.assert_called_with(CommandId.EDIT_VOICE)
+        url_builder.build.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_voice_name,
+                                             samples=new_samples, description=new_description,
+                                             labels=new_lables)
         params_builder.build.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_voice_name,
                                                 samples=new_samples, description=new_description, labels=new_lables)
         request_handler.send.assert_called_with(RequestCode.POST, url_builder.build.return_value,
@@ -228,7 +233,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.delete_sample(voice_id, sample_id)
 
         input_validator.validate.assert_called_with(CommandId.DELETE_SAMPLE, voice_id=voice_id, sample_id=sample_id)
-        url_builder.build.assert_called_with(CommandId.DELETE_SAMPLE)
+        url_builder.build.assert_called_with(CommandId.DELETE_SAMPLE, voice_id=voice_id, sample_id=sample_id)
         params_builder.build.assert_called_with(CommandId.DELETE_SAMPLE, voice_id=voice_id, sample_id=sample_id)
         request_handler.send.assert_called_with(RequestCode.DELETE, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -247,7 +252,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
 
         input_validator.validate.assert_called_with(CommandId.GET_AUDIO_FROM_SAMPLE, voice_id=voice_id,
                                                     sample_id=sample_id)
-        url_builder.build.assert_called_with(CommandId.GET_AUDIO_FROM_SAMPLE)
+        url_builder.build.assert_called_with(CommandId.GET_AUDIO_FROM_SAMPLE, voice_id=voice_id, sample_id=sample_id)
         params_builder.build.assert_called_with(CommandId.GET_AUDIO_FROM_SAMPLE, voice_id=voice_id,
                                                 sample_id=sample_id)
         request_handler.send.assert_called_with(RequestCode.GET, url_builder.build.return_value,
@@ -279,7 +284,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.get_history_item(history_item_id)
 
         input_validator.validate.assert_called_with(CommandId.GET_HISTORY_ITEM_BY_ID, history_item_id=history_item_id)
-        url_builder.build.assert_called_with(CommandId.GET_HISTORY_ITEM_BY_ID)
+        url_builder.build.assert_called_with(CommandId.GET_HISTORY_ITEM_BY_ID, history_item_id=history_item_id)
         params_builder.build.assert_called_with(CommandId.GET_HISTORY_ITEM_BY_ID, history_item_id=history_item_id)
         request_handler.send.assert_called_with(RequestCode.GET, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -295,7 +300,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.delete_history_item(history_item_id)
 
         input_validator.validate.assert_called_with(CommandId.DELETE_HISTORY_ITEM, history_item_id=history_item_id)
-        url_builder.build.assert_called_with(CommandId.DELETE_HISTORY_ITEM)
+        url_builder.build.assert_called_with(CommandId.DELETE_HISTORY_ITEM, history_item_id=history_item_id)
         params_builder.build.assert_called_with(CommandId.DELETE_HISTORY_ITEM, history_item_id=history_item_id)
         request_handler.send.assert_called_with(RequestCode.DELETE, url_builder.build.return_value,
                                                 params_builder.build.return_value)
@@ -312,7 +317,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
 
         input_validator.validate.assert_called_with(CommandId.GET_AUDIO_FROM_HISTORY_ITEM,
                                                     history_item_id=history_item_id)
-        url_builder.build.assert_called_with(CommandId.GET_AUDIO_FROM_HISTORY_ITEM)
+        url_builder.build.assert_called_with(CommandId.GET_AUDIO_FROM_HISTORY_ITEM, history_item_id=history_item_id)
         params_builder.build.assert_called_with(CommandId.GET_AUDIO_FROM_HISTORY_ITEM,
                                                 history_item_id=history_item_id)
         request_handler.send.assert_called_with(RequestCode.GET, url_builder.build.return_value,
@@ -330,7 +335,7 @@ class TestElevenLabsApiClient(unittest.TestCase):
 
         input_validator.validate.assert_called_with(CommandId.DOWNLOAD_HISTORY_ITEMS,
                                                     history_items_ids=history_items_ids)
-        url_builder.build.assert_called_with(CommandId.DOWNLOAD_HISTORY_ITEMS)
+        url_builder.build.assert_called_with(CommandId.DOWNLOAD_HISTORY_ITEMS, history_items_ids=history_items_ids)
         params_builder.build.assert_called_with(CommandId.DOWNLOAD_HISTORY_ITEMS,
                                                 history_items_ids=history_items_ids)
         request_handler.send.assert_called_with(RequestCode.POST, url_builder.build.return_value,

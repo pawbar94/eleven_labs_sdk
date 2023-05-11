@@ -4,5 +4,5 @@ from api_client.command_id import CommandId
 
 class ParamsBuilderInterface:
     @abstractmethod
-    def build(self, command_id: CommandId, **kwargs) -> dict:
+    def build(self, **kwargs) -> dict:
         pass
