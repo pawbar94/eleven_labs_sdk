@@ -2,7 +2,7 @@ from old.cli.commands.to_speech_converter.to_speech_converter_factory import ToS
 from old.cli.commands.to_speech_converter.to_speech_converter_interface import ToSpeechConverterInterface
 from old.cli.utils import get_file_extension
 from old.eleven_labs_api.eleven_labs_api import ElevenLabsApi
-from common.voice_properties.voice import Voice
+from common.voice.voice import Voice
 
 
 class ToSpeechConverter:

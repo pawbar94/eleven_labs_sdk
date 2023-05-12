@@ -2,7 +2,7 @@ import json
 
 import requests
 from old.eleven_labs_api.responses.base_response import BaseResponse
-from common.user_info_properties.user_subscription_info import UserSubscriptionInfo
+from common.user_info.user_subscription_info import UserSubscriptionInfo
 from old.eleven_labs_api.responses.user_info_model.user_subscription_info_factory import UserSubscriptionInfoFactory
 
 

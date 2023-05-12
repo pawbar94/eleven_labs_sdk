@@ -1,10 +1,10 @@
 from typing import List
-from old.eleven_labs_api.responses.voice_model.fine_tuning_verification_attempt import FineTuningVerificationAttempt
-from common.voice_properties.voice import Voice
-from old.eleven_labs_api.responses.voice_model.voice_fine_tuning import VoiceFineTuning
-from old.eleven_labs_api.responses.voice_model.voice_recording import VoiceRecording
-from old.eleven_labs_api.responses.voice_model.voice_sample import VoiceSample
-from common.voice_properties.voice_settings import VoiceSettings
+from common.voice.fine_tuning_verification_attempt import FineTuningVerificationAttempt
+from common.voice.voice import Voice
+from common.voice.voice_fine_tuning import VoiceFineTuning
+from common.voice.voice_recording import VoiceRecording
+from common.voice.voice_sample import VoiceSample
+from common.voice.voice_settings import VoiceSettings
 
 
 class VoiceFactory:

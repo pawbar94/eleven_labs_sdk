@@ -6,15 +6,15 @@ from api_client.input_validation.input_validator import InputValidator
 from api_client.params_building.params_builder import ParamsBuilder
 from api_client.request_handling.request_handler import RequestHandler
 from api_client.url_building.url_builder import UrlBuilder
-from common.history_item_properties.history_item import HistoryItem
+from common.history_item.history_item import HistoryItem
 from api_client.latency_optimization import LatencyOptimization
-from api_client.response_handler_interface import ResponseHandlerInterface
-from common.user_info_properties.user_info import UserInfo
-from common.user_info_properties.user_subscription_info import UserSubscriptionInfo
-from common.voice_model.model import Model
+from api_client.response_handling.response_handler import ResponseHandler
+from common.user_info.user_info import UserInfo
+from common.user_info.user_subscription_info import UserSubscriptionInfo
+from common.model.model import Model
 from logging import getLogger
-from common.voice_properties.voice import Voice, VoiceID
-from common.voice_properties.voice_settings import VoiceSettings
+from common.voice.voice import Voice, VoiceID
+from common.voice.voice_settings import VoiceSettings
 from common.directories import API_SPEC_FILE_PATH
 
 logger = getLogger('ElevenLabsApi')
@@ -22,12 +22,12 @@ logger = getLogger('ElevenLabsApi')
 
 class ApiClient:
     def __init__(self, input_validator: InputValidator, url_builder: UrlBuilder, params_builder: ParamsBuilder,
-                 request_handler: RequestHandler, response_handler: ResponseHandlerInterface):
+                 request_handler: RequestHandler, response_handler: ResponseHandler):
         self.__input_validator: InputValidator = input_validator
         self.__url_builder: UrlBuilder = url_builder
         self.__params_builder: ParamsBuilder = params_builder
         self.__request_handler: RequestHandler = request_handler
-        self.__response_handler: ResponseHandlerInterface = response_handler
+        self.__response_handler: ResponseHandler = response_handler
 
     def text_to_speech(self, voice_id: str, text: str, model_id: str, stability: float, similarity_boost: float,
                        latency: LatencyOptimization = LatencyOptimization.NONE) -> bytes:

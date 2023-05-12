@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from old.eleven_labs_api.eleven_labs_api import ElevenLabsApi
-from common.voice_properties.voice import Voice
+from common.voice.voice import Voice
 
 
 class ToSpeechConverterInterface:

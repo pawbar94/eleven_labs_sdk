@@ -2,7 +2,7 @@ import requests
 import json
 from old.eleven_labs_api.responses.base_response import BaseResponse
 from old.eleven_labs_api.responses.voice_model.voice_factory import VoiceFactory
-from common.voice_properties.voice_settings import VoiceSettings
+from common.voice.voice_settings import VoiceSettings
 
 
 class GetDefaultVoiceSettingsResponse(BaseResponse):

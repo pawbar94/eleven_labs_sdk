@@ -2,7 +2,7 @@ from typing import List
 from old.cli.commands.base_command import BaseCommand
 from old.cli.user_interface.interface_definition import NAME_OPTION, TEXT_OPTION
 from thirdparty.comlint_py import ParsedCommand
-from common.history_item_properties.history_item import HistoryItem
+from common.history_item.history_item import HistoryItem
 
 
 class GetHistoryCommand(BaseCommand):

@@ -2,8 +2,8 @@ from typing import List
 
 from common.voice_model.language import Language
 from common.voice_model import Model
-from common.user_info_properties.subscription import Subscription
-from common.user_info_properties.user_info import UserInfo
+from common.user_info.subscription import Subscription
+from common.user_info.user_info import UserInfo
 
 
 class UserInfoFactory:

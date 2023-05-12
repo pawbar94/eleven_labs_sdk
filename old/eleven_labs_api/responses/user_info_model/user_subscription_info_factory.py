@@ -1,9 +1,9 @@
 from typing import List
 
-from common.user_info_properties.invoice import Invoice
+from common.user_info.invoice import Invoice
 from common.voice_model.language import Language
 from common.voice_model import Model
-from common.user_info_properties.user_subscription_info import UserSubscriptionInfo
+from common.user_info.user_subscription_info import UserSubscriptionInfo
 
 
 class UserSubscriptionInfoFactory:

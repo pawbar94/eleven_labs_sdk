@@ -2,7 +2,7 @@ from typing import List
 from old.cli.commands.base_command import BaseCommand
 from old.cli.user_interface.interface_definition import NAME_OPTION, PREMADE_FLAG, GENERATED_FLAG
 from thirdparty.comlint_py import ParsedCommand
-from common.voice_properties.voice import Voice
+from common.voice.voice import Voice
 
 
 class GetVoicesCommand(BaseCommand):

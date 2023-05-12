@@ -3,7 +3,7 @@ from abc import abstractmethod
 from typing import List
 from old.cli.user_interface.interface_definition import LOG_LEVEL_OPTION, DEFAULT_LOGGING_LEVEL
 from thirdparty.comlint_py import CommandHandlerInterface, ParsedCommand
-from common.voice_properties.voice import Voice
+from common.voice.voice import Voice
 from old.eleven_labs_api.eleven_labs_api import ElevenLabsApi
 
 

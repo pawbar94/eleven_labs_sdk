@@ -6,13 +6,13 @@ from api_client.request_code import RequestCode
 from old.eleven_labs_api.requests.request_factory import RequestFactory
 from api_client.command_id import RequestID
 from old.eleven_labs_api.requests.request_interface import RequestInterface
-from common.history_item_properties.history_item import HistoryItem
+from common.history_item.history_item import HistoryItem
 from old.eleven_labs_api.responses.response_factory import ResponseFactory
 from old.eleven_labs_api.responses.response_interface import ResponseInterface
-from common.user_info_properties.user_info import UserInfo
-from common.user_info_properties.user_subscription_info import UserSubscriptionInfo
-from common.voice_properties.voice import Voice, VoiceID
-from common.voice_properties.voice_settings import VoiceSettings
+from common.user_info.user_info import UserInfo
+from common.user_info.user_subscription_info import UserSubscriptionInfo
+from common.voice.voice import Voice, VoiceID
+from common.voice.voice_settings import VoiceSettings
 from logging import getLogger
 
 logger = getLogger('ElevenLabsApi')

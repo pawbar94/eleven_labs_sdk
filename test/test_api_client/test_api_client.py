@@ -5,21 +5,20 @@ from api_client.api_client import ApiClient
 from api_client.input_validation.input_validator import InputValidator
 from api_client.latency_optimization import LatencyOptimization
 from api_client.params_building.params_builder import ParamsBuilder
-from api_client.request_code import RequestCode
 from api_client.request_handling.request_handler import RequestHandler
-from api_client.response_handler_interface import ResponseHandlerInterface
+from api_client.response_handling.response_handler import ResponseHandler
 from api_client.url_building.url_builder import UrlBuilder
-from common.voice_properties.voice_settings import VoiceSettings
+from common.voice.voice_settings import VoiceSettings
 
 
 def create_mocks():
     return Mock(spec=InputValidator), Mock(spec=UrlBuilder), Mock(spec=ParamsBuilder), Mock(spec=RequestHandler), \
-        Mock(spec=ResponseHandlerInterface)
+        Mock(spec=ResponseHandler)
 
 
 def create_eleven_labs_api_client(input_validator: InputValidator, url_builder: UrlBuilder,
                                   params_builder: ParamsBuilder, request_handler: RequestHandler,
-                                  response_handler: ResponseHandlerInterface):
+                                  response_handler: ResponseHandler):
     return ApiClient(input_validator, url_builder, params_builder, request_handler, response_handler)
 
 

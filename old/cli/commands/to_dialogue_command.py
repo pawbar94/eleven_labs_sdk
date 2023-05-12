@@ -9,7 +9,7 @@ from thirdparty.comlint_py import ParsedCommand
 from old.eleven_labs_api.eleven_labs_api import ElevenLabsApi
 from old.conversation_creator.conversation_creator import ConversationCreator
 from old.conversation_creator.dialogue_decomposer import ActorName
-from common.voice_properties.voice import Voice
+from common.voice.voice import Voice
 
 
 class ToDialogueCommand(BaseCommand):

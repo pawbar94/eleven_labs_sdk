@@ -2,7 +2,7 @@ from typing import List
 import requests
 import json
 from old.eleven_labs_api.responses.base_response import BaseResponse
-from common.history_item_properties.history_item import HistoryItem
+from common.history_item.history_item import HistoryItem
 from old.eleven_labs_api.responses.history_item_model.history_item_factory import HistoryItemFactory
 from logging import getLogger
 

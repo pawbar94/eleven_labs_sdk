@@ -1,5 +1,5 @@
-from common.history_item_properties.feedback import Feedback
-from common.history_item_properties.history_item import HistoryItem
+from common.history_item.feedback import Feedback
+from common.history_item.history_item import HistoryItem
 from old.eleven_labs_api.responses.voice_model.voice_factory import VoiceFactory
 
 

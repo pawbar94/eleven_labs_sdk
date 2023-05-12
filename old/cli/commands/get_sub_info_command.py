@@ -1,6 +1,6 @@
 from old.cli.commands.base_command import BaseCommand
 from thirdparty.comlint_py import ParsedCommand
-from common.user_info_properties.user_subscription_info import UserSubscriptionInfo
+from common.user_info.user_subscription_info import UserSubscriptionInfo
 
 
 class GetSubInfoCommand(BaseCommand):

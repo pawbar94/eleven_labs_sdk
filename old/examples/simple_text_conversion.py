@@ -1,7 +1,7 @@
 import logging
 from typing import List
 from old.eleven_labs_api.eleven_labs_api import ElevenLabsApi
-from common.voice_properties.voice import Voice
+from common.voice.voice import Voice
 
 logging.basicConfig(level=logging.INFO,
                     format='[%(levelname)s][%(name)s] %(message)s')

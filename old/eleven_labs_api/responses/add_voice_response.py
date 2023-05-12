@@ -1,7 +1,7 @@
 import json
 import requests
 from old.eleven_labs_api.responses.base_response import BaseResponse
-from common.voice_properties.voice import VoiceID
+from common.voice.voice import VoiceID
 
 
 class AddVoiceResponse(BaseResponse):

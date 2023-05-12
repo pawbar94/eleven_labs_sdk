@@ -1,7 +1,7 @@
 import json
 import requests
 from old.eleven_labs_api.responses.base_response import BaseResponse
-from common.user_info_properties.user_info import UserInfo
+from common.user_info.user_info import UserInfo
 from old.eleven_labs_api.responses.user_info_model.user_info_factory import UserInfoFactory
 
 

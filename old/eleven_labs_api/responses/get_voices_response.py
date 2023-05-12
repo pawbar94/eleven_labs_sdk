@@ -2,7 +2,7 @@ import requests
 import json
 from typing import List
 from old.eleven_labs_api.responses.base_response import BaseResponse
-from common.voice_properties.voice import Voice
+from common.voice.voice import Voice
 from old.eleven_labs_api.responses.voice_model.voice_factory import VoiceFactory
 from logging import getLogger
 
