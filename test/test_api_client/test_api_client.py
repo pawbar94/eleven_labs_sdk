@@ -39,14 +39,14 @@ class TestElevenLabsApiClient(unittest.TestCase):
         client.text_to_speech(voice_id, text, stability, similarity_boost, model_id, latency)
 
         input_validator.validate.assert_called_with(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text,
-                                                    model_id=model_id, stability=stability,
-                                                    similarity_boost=similarity_boost, latency=latency)
+                                                    model_id=model_id.value, stability=stability,
+                                                    similarity_boost=similarity_boost, latency=latency.value)
         url_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text,
-                                             model_id=model_id, stability=stability,
-                                             similarity_boost=similarity_boost, latency=latency)
+                                             model_id=model_id.value, stability=stability,
+                                             similarity_boost=similarity_boost, latency=latency.value)
         params_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text,
-                                                model_id=model_id, stability=stability,
-                                                similarity_boost=similarity_boost, latency=latency)
+                                                model_id=model_id.value, stability=stability,
+                                                similarity_boost=similarity_boost, latency=latency.value)
         request_handler.send.assert_called_with(CommandId.TEXT_TO_SPEECH, url_builder.build.return_value,
                                                 params_builder.build.return_value)
         response_handler.process.assert_called_with(CommandId.TEXT_TO_SPEECH, request_handler.send.return_value)
