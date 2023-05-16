@@ -210,7 +210,7 @@ class TestGetAudioFromHistoryItemParamsBuilder(unittest.TestCase):
 class TestDownloadHistoryItemsParamsBuilder(unittest.TestCase):
     def test_build_returns_proper_params(self):
         expected_params = {
-            'history_items_ids': ['some id', 'some other id']
+            'history_item_ids': ['some id', 'some other id']
         }
         params_builder = DownloadHistoryItemsParamsBuilder()
 
