@@ -10,8 +10,8 @@ from src.api_client.input_validation.exceptions.missing_voice_id_argument import
 class EditVoiceInputValidator(BaseInputValidator):
     def validate(self, **kwargs) -> None:
         self._check_existence({'voice_id': MissingVoiceIdArgument,
-                               'name': MissingNameArgument,
-                               'samples': MissingSamplesArgument,
-                               'description': MissingDescriptionArgument,
-                               'labels': MissingLabelsArgument}, 'edit voice', **kwargs)
+                               'new_name': MissingNameArgument,
+                               'new_samples': MissingSamplesArgument,
+                               'new_description': MissingDescriptionArgument,
+                               'new_labels': MissingLabelsArgument}, 'edit voice', **kwargs)
         self._check_if_empty({'voice_id': EmptyVoiceId}, 'edit voice', **kwargs)

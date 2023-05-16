@@ -10,12 +10,14 @@ from src.api_client.params_building.edit_voice_settings_params_builder import Ed
 from src.api_client.params_building.get_audio_from_history_item_params_builder import \
     GetAudioFromHistoryItemParamsBuilder
 from src.api_client.params_building.get_audio_from_sample_params_builder import GetAudioFromSampleParamsBuilder
-from src.api_client.params_building.get_default_voice_settings_params_builder import GetDefaultVoiceSettingsParamsBuilder
+from src.api_client.params_building.get_default_voice_settings_params_builder import \
+    GetDefaultVoiceSettingsParamsBuilder
 from src.api_client.params_building.get_generated_items_params_builder import GetGeneratedItemsParamsBuilder
 from src.api_client.params_building.get_history_item_params_builder import GetHistoryItemParamsBuilder
 from src.api_client.params_building.get_models_params_builder import GetModelsParamsBuilder
 from src.api_client.params_building.get_user_info_params_builder import GetUserInfoParamsBuilder
-from src.api_client.params_building.get_user_subscription_info_params_builder import GetUserSubscriptionInfoParamsBuilder
+from src.api_client.params_building.get_user_subscription_info_params_builder import \
+    GetUserSubscriptionInfoParamsBuilder
 from src.api_client.params_building.get_voice_params_builder import GetVoiceParamsBuilder
 from src.api_client.params_building.get_voice_settings_params_builder import GetVoiceSettingsParamsBuilder
 from src.api_client.params_building.get_voices_params_builder import GetVoicesParamsBuilder
@@ -138,8 +140,9 @@ class TestEditVoiceParamsBuilder(unittest.TestCase):
         }
         params_builder = EditVoiceParamsBuilder()
 
-        params = params_builder.build(name='some name', files=[b'\x00\01\x02', b'\x03\x04\x05'],
-                                      description='some description', labels='{"key1": "value1", "key2": "value2"}')
+        params = params_builder.build(new_name='some name', new_samples=[b'\x00\01\x02', b'\x03\x04\x05'],
+                                      new_description='some description',
+                                      new_labels='{"key1": "value1", "key2": "value2"}')
 
         self.assertEqual(expected_params, params)
 

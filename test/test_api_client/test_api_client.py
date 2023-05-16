@@ -199,14 +199,15 @@ class TestElevenLabsApiClient(unittest.TestCase):
 
         client.edit_voice(voice_id, new_voice_name, new_samples, new_description, new_lables)
 
-        input_validator.validate.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_voice_name,
-                                                    samples=new_samples, description=new_description,
-                                                    labels=new_lables)
-        url_builder.build.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_voice_name,
-                                             samples=new_samples, description=new_description,
-                                             labels=new_lables)
-        params_builder.build.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_voice_name,
-                                                samples=new_samples, description=new_description, labels=new_lables)
+        input_validator.validate.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, new_name=new_voice_name,
+                                                    new_samples=new_samples, new_description=new_description,
+                                                    new_labels=new_lables)
+        url_builder.build.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, new_name=new_voice_name,
+                                             new_samples=new_samples, new_description=new_description,
+                                             new_labels=new_lables)
+        params_builder.build.assert_called_with(CommandId.EDIT_VOICE, voice_id=voice_id, new_name=new_voice_name,
+                                                new_samples=new_samples, new_description=new_description,
+                                                new_labels=new_lables)
         request_handler.send.assert_called_with(CommandId.EDIT_VOICE, url_builder.build.return_value,
                                                 params_builder.build.return_value)
         response_handler.process.assert_called_with(CommandId.EDIT_VOICE,

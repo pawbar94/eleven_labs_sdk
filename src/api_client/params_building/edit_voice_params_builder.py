@@ -8,9 +8,9 @@ class EditVoiceParamsBuilder(ParamsBuilderInterface):
     def build(self, **kwargs):
         params: dict = {}
 
-        params['name'] = kwargs['name']
-        params['files'] = kwargs['files']
-        params['description'] = kwargs['description']
-        params['labels'] = kwargs['labels']
+        params['name'] = kwargs['new_name']
+        params['files'] = kwargs['new_samples']
+        params['description'] = kwargs['new_description']
+        params['labels'] = kwargs['new_labels']
 
         return params

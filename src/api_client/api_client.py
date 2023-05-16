@@ -155,8 +155,8 @@ class ApiClient:
         logger.debug(f'New name: {new_name}, num of samples: {len(new_samples)}, new description: {new_description}, '
                      f'new labels: {new_labels}')
 
-        return self.__handle_request(CommandId.EDIT_VOICE, voice_id=voice_id, name=new_name,
-                                     samples=new_samples, description=new_description, labels=new_labels)
+        return self.__handle_request(CommandId.EDIT_VOICE, voice_id=voice_id, new_name=new_name,
+                                     new_samples=new_samples, new_description=new_description, new_labels=new_labels)
 
     def delete_sample(self, voice_id: str, sample_id: str) -> str:
         """
@@ -227,7 +227,7 @@ class ApiClient:
 
         return self.__handle_request(CommandId.GET_AUDIO_FROM_HISTORY_ITEM, history_item_id=history_item_id)
 
-    def download_history_items(self, history_items_ids: List[str]) -> List[bytes]:
+    def download_history_items(self, history_items_ids: List[str]) -> bytes:
         """
         Downloads the audio data for multiple history items.
 

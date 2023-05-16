@@ -134,6 +134,18 @@ After this call is done, you will be able to find the audio file at the specifie
 [INFO][ElevenLabsApi] Converting text to speech using voice with ID yoZ06aMxZJJ28mfd3POQ
 ```
 
+Or when logger is configured to show debug messages:
+
+```
+[INFO][ElevenLabsApi] Getting available voices
+[INFO][ElevenLabsApi] Converting text to speech using voice with ID yoZ06aMxZJJ28mfd3POQ
+[DEBUG][ElevenLabsApi] Stability: 0.57
+[DEBUG][ElevenLabsApi] Similarity boost: 0.82
+[DEBUG][ElevenLabsApi] Model ID: ModelId.MULTILINGUAL
+[DEBUG][ElevenLabsApi] Streaming latency optimization: LatencyOptimization.STRONG
+[DEBUG][ElevenLabsApi] Text to convert: Hello world!
+```
+
 ## <a name="getting_default_voice_settings"></a>Getting default voice settings
 
 In order to get default voice settings, call the `get_default_voice_settings` method. This method returns a `VoiceSettings` object.
@@ -143,7 +155,7 @@ from eleven_labs_sdk import ElevenLabsApi, VoiceSettings
 # Create API object
 api = ElevenLabsApi(api_key='YOUR_API_KEY')
 # Send request to download default voice settings
-default_settings: VoiceSettings = api.get_default_voice_settings()
+default_settings: VoiceSettings = api.get_voice_settings()
 # Print settings
 print(default_settings)
 ```
@@ -151,6 +163,7 @@ print(default_settings)
 You will see output like this:
 
 ```
+[INFO][ElevenLabsApi] Getting default settings
 VoiceSettings(stability=0.75, similarity_boost=0.75)
 ```
 
@@ -159,13 +172,22 @@ VoiceSettings(stability=0.75, similarity_boost=0.75)
 In order to download settings for the specific voice, you need a voice ID of the desired voice. Then, call `get_voice_settings` method and pass the voice ID as a parameter. This method returns a `VoiceSettings` object.
 
 ```python
-from eleven_labs_sdk import ElevenLabsApi
+from eleven_labs_sdk import ElevenLabsApi, VoiceSettings
 # Create API object
 api = ElevenLabsApi(api_key='YOUR_API_KEY')
 # Choose voice ID
 voice_id: str = 'VOICE_ID'
 # Send request to download voice settings
 voice_settings: VoiceSettings = api.get_voice_settings(voice_id)
+# Print settings
+print(voice_settings)
+```
+
+Output:
+
+```
+[INFO][ElevenLabsApi] Getting  settings for voice with ID yoZ06aMxZJJ28mfd3POQ
+VoiceSettings(stability=0.21, similarity_boost=0.865)
 ```
 
 ## <a name="getting_specific_voice"></a>Getting specific voice
@@ -178,26 +200,23 @@ from eleven_labs_sdk import ElevenLabsApi, Voice
 api = ElevenLabsApi(api_key='YOUR_API_KEY')
 # Choose voice ID
 voice_id: str = 'VOICE_ID'
-# Send request to download voice settings
+# Send request to download voice properties
 voice: Voice = api.get_voice(voice_id)
 ```
 
 ## <a name="deleting_specific_voice"></a>Deleting specific voice
 
-In order to delete a specific voice, you need an voice object with the voice you want to delete. Then, call `delete_voice` method and pass the voice as a parameter.
+In order to delete a specific voice, you need an ID of the voice you want to delete. Then, call `delete_voice` method and pass the voice ID as a parameter.
 
 ```python
-from typing import List
-from eleven_labs_sdk import ElevenLabsApi, Voice
+from eleven_labs_sdk import ElevenLabsApi
 # Create API object
 api = ElevenLabsApi(api_key='YOUR_API_KEY')
-# Get all voices available on your account
-all_voices: List[Voice] = api.get_voices()
-# Chose the desired voice and extract it from the list
-voice: Voice = list(filter(lambda x: x.name == 'VOICE_NAME', all_voices))[0]
-# Send request to delete the voice
-operation_status: str = api.delete_voice(voice)
-# Print status
+# Choose voice ID
+voice_id: str = 'VOICE_ID'
+# Send request to delete voice
+operation_status: str = api.delete_voice(voice_id)
+# Print operation status
 print(operation_status)
 ```
 
@@ -206,19 +225,16 @@ print(operation_status)
 In order to edit voice settings, you need a voice object that you want to edit and object with the new voice settings that you want to assign.
 
 ```python
-from typing import List
-from eleven_labs_sdk import ElevenLabsApi, Voice, VoiceSettings
+from eleven_labs_sdk import ElevenLabsApi, VoiceSettings
 # Create API object
 api = ElevenLabsApi(api_key='YOUR_API_KEY')
-# Get all voices available on your account
-all_voices: List[Voice] = api.get_voices()
-# Chose the desired voice and extract it from the list
-voice: Voice = list(filter(lambda x: x.name == 'VOICE_NAME', all_voices))[0]
-# Create new voice settings
-voice_settings: VoiceSettings = VoiceSettings(stability=0.34, similarity_boost=0.78)
-# Send request to edit voice settings
-operation_status: str = api.edit_voice_settings(voice, voice_settings)
-# Print status
+# Choose voice ID
+voice_id: str = 'VOICE_ID'
+# Create new settings
+settings: VoiceSettings = VoiceSettings(stability=0.38, similarity_boost=0.67)
+# Edit voice settings
+operation_status: str = api.edit_voice_settings(voice_id, settings)
+# Print operation status
 print(operation_status)
 ```
 
@@ -238,43 +254,44 @@ This method returns ID of the newly created voice.
 
 ## <a name="editing_voice"></a>Editing voice
 
-Editing voice is very similar to creating a new voice. The only difference is that you need to provide a voice object that you want to edit.
+Editing voice is very similar to creating a new voice. The only difference is that you need to provide a voice ID of the voice that you want to edit.
 
 ```python
 # Choose voice that you want to edit
-voice: Voice = ...
+voice_id: str = 'VOICE_ID'
 # Send request to edit the voice
-voice_id: str = api.edit_voice(voice, name='MY_NEW_VOICE_NAME', files=[NEW_SAMPLE_1, NEW_SAMPLE_2], description='NEW VOICE DESCRIPTION', labels='{"label3": "value3", "label4": "value4"}')
+api.edit_voice(voice_id, new_name='MY_NEW_VOICE_NAME', new_samples=[NEW_SAMPLE_1, NEW_SAMPLE_2], new_description='NEW VOICE DESCRIPTION', new_labels='{"label3": "value3", "label4": "value4"}')
 ```
 
 ## <a name="deleting_voice_sample"></a>Deleting voice sample
 
-In order to delete a voice sample, you need to provide a voice object and a sample ID. Then, call `delete_sample` method and pass the voice and sample ID as parameters.
+In order to delete a voice sample, you need to provide a voice object and a sample ID. Then, call `delete_sample` method and pass the voice ID and sample ID as parameters.
 
 ```python
-# Choose voice that you want to edit
-voice: Voice = ...
+# Choose voice ID
+voice_id: str = 'VOICE_ID'
 # Choose sample ID
 sample_id: str = 'SAMPLE_ID'
 # Send request to delete the sample
-operation_status: str = api.delete_sample(voice, sample_id)
+operation_status: str = api.delete_sample(voice_id, sample_id)
 # Print status
 print(operation_status)
 ```
 
 ## <a name="getting_audio_from_sample"></a>Getting audio from sample
 
-In order to get audio from a sample, you need to provide a voice object, a sample ID and the output file path. Then, call `get_audio_from_sample` method and pass the parameters.
+In order to get audio from a sample, you need to provide a voice ID and a sample ID.
 
 ```python
 # Choose voice that you want to get audio sample from
-voice: Voice = ...
+voice_id: str = 'VOICE_ID'
 # Choose sample ID
 sample_id: str = 'SAMPLE_ID'
-# Choose output file path
-output_file_path: str = '/path/to/sample.mpeg'
 # Send get audio from sample request
-api.get_audio_from_sample(voice, sample_id, output_file_path)
+audio_data: bytes = api.get_audio_from_sample(voice_id, sample_id)
+# Save audio data to file
+with open('audio.mp3', 'wb') as file:
+    file.write(audio_data)
 ```
 
 ## <a name="getting_generated_items"></a>Getting generated items
@@ -294,7 +311,7 @@ for item in history_items:
     print(f' * {item}')
 ```
 
-Depending on the items you have generated on your account, you will see output similar to the outptu below:
+Depending on the items you have generated on your account, you will see output similar to the output below:
 
 ```
 [INFO][ElevenLabsApi] Getting generated history items
@@ -304,45 +321,62 @@ Depending on the items you have generated on your account, you will see output s
 
 ## <a name="getting_audio_from_history_item"></a>Getting audio for history item
 
-In order to download audio that you have generated in the past, you need to provide a history item object and the output file path. Then, call `get_audio_from_history_item` method and pass the parameters.
+In order to download audio that you have generated in the past, you need to provide a history item ID.
 
 ```python
-# Choose history item that you want to get audio from
-history_item: HistoryItem = ...
-# Choose output file path
-output_file_path: str = '/path/to/audio.mpeg'
-# Send get audio from history item request
-api.get_audio_from_history_item(history_item, output_file_path)
+from eleven_labs_sdk import ElevenLabsApi
+# Create API object
+api = ElevenLabsApi(api_key='YOUR_API_KEY')
+# Choose ID of a history item to get audio from
+history_item_id: str = 'ITEM_ID'
+# Send request
+audio_data: bytes = api.get_audio_from_history_item(history_item_id)
+# Save audio to file
+with open('audio.mp3', 'wb') as file:
+    file.write(audio_data)
 ```
 
 ## <a name="deleting_history_item"></a>Deleting history item
 
-In order to delete a history item, you need to provide a history item object that you want to delete. Then, call `delete_history_item` method and pass the history item as a parameter.
+In order to delete a history item, you need to provide a history item ID that you want to delete. Then, call `delete_history_item` method and pass the history item ID as a parameter.
 
 ```python
-# Choose history item that you want to delete
-history_item: HistoryItem = ...
-# Send request to delete the history item
-operation_status: str = api.delete_history_item(history_item)
-# Print status
+from eleven_labs_sdk import ElevenLabsApi
+# Create API object
+api = ElevenLabsApi(api_key='YOUR_API_KEY')
+# Choose ID of a history item to get audio from
+history_item_id: str = 'ITEM_ID'
+# Send request
+operation_status: str = api.delete_history_item(history_item_id)
+# Print operation status
 print(operation_status)
 ```
 
 ## <a name="downloading_history_items"></a>Downloading history items
 
-With this function, you are able to download one or more audio files from the history items. If you provide only one history item ID, then you can save the audio to any media file, but if you provide more than one ID to download, then regardless of what file extension you have provided, all audio files will be saved to a single .zip file.
+With this function, you are able to download one or more audio files from the history items. If you provide only one history item ID, then you can save the audio to an individual media file, but if you provide more than one ID to download, then it should be saved to a .zip file.
 
 ```python
-# Choose history item that you want to download
-history_items_ids: List[str] = ['HISTORY_ITEM_ID_1']
-# Send request to download the history item
-api.download_history_items(history_items_ids, output_file_path='/path/to/audio.mpeg')
+from eleven_labs_sdk import ElevenLabsApi
+# Create API object
+api = ElevenLabsApi(api_key='YOUR_API_KEY')
+# Choose ID of a history item to get audio from
+history_item_id: str = 'ITEM_ID'
+# Send request
+audio_data: bytes = api.download_history_items([history_item_id])
+# Save audio to file
+with open('audio.mp3', 'wb') as file:
+    file.write(audio_data)
 ```
 ```python
-# Choose history items that you want to download
-history_items_ids: List[str] = ['HISTORY_ITEM_ID_1', 'HISTORY_ITEM_ID_2']
-# Send request to download the history items
-api.download_history_items(history_items_ids, output_file_path='/path/to/audio_package.zip')
+from eleven_labs_sdk import ElevenLabsApi
+# Create API object
+api = ElevenLabsApi(api_key='YOUR_API_KEY')
+# Send request
+audio_data: bytes = api.download_history_items(['ITEM_ID_1', 'ITEM_ID_2'])
+# Save audio to file
+with open('audio_files.zip', 'wb') as file:
+    file.write(audio_data)
 ```
 
 ## <a name="getting_user_subscription_info"></a>Getting user subscription info
@@ -369,234 +403,6 @@ from eleven_labs_sdk import ElevenLabsApi, UserInfo
 api = ElevenLabsApi(api_key='YOUR_API_KEY')
 # Send request to get user subscription info
 user_info: UserInfo = api.get_user_info()
-# Print subscription info
+# Print user info
 print(user_info)
-```
-
-# <a name="conversation_creator"></a>Conversation creator
-
-Conversation creator is a module which allows to create an audio of a conversation between two or more people basing on
-a text script. In order to create a conversation, first of all you need to have a script. For purpose of this example,
-let's assume that there is a file called _interview.txt_ which contains the following text:
-
-```
-[John] Hello, how are you?
-[Mary] I'm fine, thanks. And you?
-[John] I'm fine too because I've just got back from the trip in the mountains.
-[Mary] Great, I'd love to go with you next time.
-```
-
-Below you can find an example of code converting dialogue from the file into audio file:
-
-```python
-from typing import Dict
-from eleven_labs_sdk import ElevenLabsApi, ConversationCreator, ActorName, Voice
-# Create API object
-api = ElevenLabsApi(api_key='YOUR_API_KEY')
-# Get all voices available on your account
-all_voices = api.get_voices()
-# Find the voices you need for the conversation
-bella_voice = list(filter(lambda x: x.name == 'Bella', all_voices))[0]
-adam_voice = list(filter(lambda x: x.name == 'Adam', all_voices))[0]
-# optionally: tweak voice settings
-bella_voice.settings.stability = 0.35
-bella_voice.settings.similarity_boost = 0.75
-
-adam_voice.settings.stability = 0.35
-adam_voice.settings.similarity_boost = 0.75
-# read dialogue from the file
-with open('interview.txt', 'r') as f:
-    dialogue = f.read()
-# create a mapping between speakers and their voices
-voices: Dict[ActorName, Voice] = {'John': adam_voice,
-                                  'Mary': bella_voice}
-# create conversation creator providing api object and voice mapping
-conversation_creator = ConversationCreator(api, voices)
-# create audio file with the conversation and save it to output_folder directory
-conversation_creator.create(dialogue, 'output_folder')
-```
-
-After running this program, you will see a newly created folder called _output_folder_ which contains the following files:
-* _John_0.mp3_, _Mary_1.mp3_, _John_2.mp3_, _Mary_3.mp3_ - audio files with individual speakers' parts
-* _dialogue.mp3_ - audio file with the whole conversation
-
-# <a name="command_line_interface_application"></a>Command line interface application
-
-If you don't want to create your own application basing on the described Python modules, you can use a standalone CLI
-application exposing the same functionalities as the libraries' API. First, you need to pyt your Eleven Labs API key
-in _cli/config/api_key.json_ file. Then, assuming you are in _cli_ folder, you can run the application using the
-following command:
-
-```bash
-python run_el_cli.py [args]
-```
-
-This application uses __Comlint__ as a main framework for parsing command line arguments, so it inherits its behavior and
-concepts. You can find more information about Comlint [here](https://github.com/pawbar94/comlint_cpp). For example, if
-you run the application with no argument (or with _-h_ or _--help_ or _help_), you will see the application's help.
-
-## <a name="cli_converting_text_to_audio_file"></a>Converting text to audio file
-
-In order to convert text to audio file, prepare a file with text you want to convert. Currently supported text file
-extensions are:
-* .txt
-* .docx
-
-Let's say you want to convert text from _my_text.docx_ file to audio using Arnold voice:
-
-```bash
-python run_el_cli.py to-speech -input my_text.docx -name Arnold
-```
-
-By default, the output will be saved to .mp3 file in the same directory as the main CLI application script. You can
-specify the output file path using _-output_ argument:
-
-```bash
-python run_el_cli.py to-speech -input my_text.docx -name Arnold -output /path/to/output.mp3
-```
-
-In the console you should see the following output:
-
-```
-[INFO][ElevenLabsApi] Getting all voices
-[INFO][ElevenLabsApi] Converting text to speech using Arnold voice
-[INFO][MpegToSpeechConverter] Saved audio to /path/to/output.mp3 file
-```
-
-Currently supported audio files extensions are:
-* .mp3
-* .mpeg
-
-## <a name="cli_converting_text_to_dialogue_audio"></a>Converting text to dialogue audio
-
-In order to convert a textual dialogue to a dialogue audio, first of all you need to prepare a text file with the
-dialogue. It may be .txt or .docx file, but for now it must have the following format:
-
-```
-[Speaker name 1] Text section
-[Speaker name 2] Text section
-```
-
-For example, let's say that there is a file called _dialogue.docx_ with the following content:
-
-```
-[John] Hello Mary, how are you?
-[Mary] I'm fine and you?
-[John] Pretty ok.
-[Mary] Ok, bye.
-```
-
-Now you need to provide a mapping between the speakers and their voices. Such mapping should be placed in _actors.json_
-file placed in _cli/config_ directory. The keys of the mapping are the names of the speakers in the provided dialogue
-and values are names of the voices you want to use. For this example, let's assign Arnold voice to John and Rachel
-voice to Mary:
-
-```json
-{
-  "John": "Arnold",
-  "Mary": "Rachel"
-}
-```
-
-Now you can run the application:
-
-```bash
-python run_el_cli.py to-dialogue -input dialogue.docx
-```
-
-After running the command, you will see the newly created folder called _dialogue_project_ in the same directory as CLI
-main script. You can find the dialogue in _dialogue_project/dialogue.mp3_ file. If you want, you can specify a custom
-project directory:
-
-```bash
-python run_el_cli.py to-dialogue -input dialogue.docx -output /path/to/project
-```
-
-After running the above command, you will find the dialogue file in the specified directory. In the console you should
-see the following output:
-
-```
-[INFO][ElevenLabsApi] Getting all voices
-[INFO][ConversationCreator] Creating dialogue audio
-[INFO][ConversationCreator] Creating project folder: /path/to/project
-[INFO][ConversationCreator] Splitting dialogue into roles
-[INFO][ConversationCreator] Getting audio streams for roles
-[INFO][ElevenLabsApi] Converting text to speech stream using Arnold voice
-[INFO][ElevenLabsApi] Converting text to speech stream using Rachel voice
-[INFO][ElevenLabsApi] Converting text to speech stream using Arnold voice
-[INFO][ElevenLabsApi] Converting text to speech stream using Rachel voice
-[INFO][ConversationCreator] Saving individual audio files
-[INFO][ConversationCreator] Combining individual audio files into one dialogue audio
-[INFO][ConversationCreator] Dialogue saved to /path/to/project/dialogue.mp3 file
-```
-
-## <a name="cli_getting_available_voices"></a>Getting available voices
-
-In order to get all voices available on your account, run the following command:
-
-```bash
-python run_el_cli.py get-voices
-```
-
-You can specify the category of the voices that you are interested in by providing a proper flag. For example, if you
-want to get all premade voices available on all accounts, run the following command:
-
-```bash
-python run_el_cli.py get-voices --premade
-```
-
-And if you want to get all voices generated by the user, run the following command:
-
-```bash
-python run_el_cli.py get-voices --generated
-```
-
-You can also specify a single voice by providing its name:
-
-```bash
-python run_el_cli.py get-voices -name Arnold
-```
-
-## <a name="cli_getting_generated_items"></a>Getting generated items
-
-In order to get history of the generated items on your account, run the following command:
-
-```bash
-python run_el_cli.py get-history
-```
-
-If you want to filter the output by the voice name, use _-name_ option:
-
-```bash
-python run_el_cli.py get-history -name Arnold
-```
-
-If you want to filter the output by the generated text, use _-text_ option. Let's say you want to display only items
-which contained "how are you" text:
-
-```bash
-python run_el_cli.py get-history -text "how are you"
-```
-
-If you want precise filtering by the voice and the generated text, you can combine both above options. For example, to
-display only items which contained "how are you" text and were generated using Arnold voice, run the following command:
-
-```bash
-python run_el_cli.py get-history -name Arnold -text "how are you"
-```
-
-## <a name="cli_getting_user_info"></a>Getting user info
-
-In order to get information about your account, run the following command:
-
-```bash
-python run_el_cli.py get-user-info
-```
-
-## <a name="cli_getting_user_subscription_info"></a>Getting user subscription info
-
-In order to get information about your subscription, run the following command:
-
-```bash
-python run_el_cli.py get-sub-info
 ```

@@ -8,6 +8,6 @@ class DownloadHistoryItemsParamsBuilder(ParamsBuilderInterface):
     def build(self, **kwargs):
         params: dict = {}
 
-        params['history_items_ids'] = kwargs['history_items_ids']
+        params['history_item_ids'] = kwargs['history_items_ids']
 
         return params

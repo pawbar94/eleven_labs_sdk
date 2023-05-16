@@ -11,6 +11,9 @@ def create_voice_settings(voice_settings_properties: dict) -> VoiceSettings:
 
 
 def create_feedback(feedback_properties: dict) -> Feedback:
+    if not feedback_properties:
+        return None
+
     return Feedback(thumbs_up=feedback_properties['thumbs_up'], feedback=feedback_properties['feedback'],
                     emotions=feedback_properties['emotions'],
                     inaccurate_clone=feedback_properties['inaccurate_clone'],
