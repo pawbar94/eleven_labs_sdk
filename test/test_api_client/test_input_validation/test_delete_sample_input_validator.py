@@ -1,9 +1,9 @@
 import unittest
-from api_client.input_validation.delete_sample_input_validator import DeleteSampleInputValidator
-from api_client.input_validation.exceptions.empty_voice_id import EmptyVoiceId
-from api_client.input_validation.exceptions.missing_sample_id_argument import MissingSampleIdArgument
-from api_client.input_validation.exceptions.missing_voice_id_argument import MissingVoiceIdArgument
-from api_client.input_validation.exceptions.empty_sample_id import EmptySampleId
+from src.api_client.input_validation.delete_sample_input_validator import DeleteSampleInputValidator
+from src.api_client.input_validation.exceptions.empty_sample_id import EmptySampleId
+from src.api_client.input_validation.exceptions.empty_voice_id import EmptyVoiceId
+from src.api_client.input_validation.exceptions.missing_sample_id_argument import MissingSampleIdArgument
+from src.api_client.input_validation.exceptions.missing_voice_id_argument import MissingVoiceIdArgument
 
 
 class TestDeleteSampleInputValidator(unittest.TestCase):

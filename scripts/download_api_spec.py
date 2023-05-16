@@ -1,6 +1,6 @@
 import requests
 import json
-from common.directories import API_SPEC_FILE_PATH
+from src.common.directories import API_SPEC_FILE_PATH
 
 API_SPEC_URL: str = 'https://api.elevenlabs.io/openapi.json'
 

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from api_client.response_handling.text_to_speech_response_handler import TextToSpeechResponseHandler
+from src.api_client.response_handling.text_to_speech_response_handler import TextToSpeechResponseHandler
 
 
 class TestTextToSpeechResponseHandler(unittest.TestCase):

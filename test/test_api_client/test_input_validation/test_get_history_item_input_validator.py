@@ -1,8 +1,8 @@
 import unittest
 
-from api_client.input_validation.exceptions.missing_history_item_id_argument import MissingHistoryItemIdArgument
-from api_client.input_validation.get_history_item_input_validator import GetHistoryItemInputValidator
-from api_client.input_validation.exceptions.empty_history_item_id import EmptyHistoryItemId
+from src.api_client.input_validation.exceptions.missing_history_item_id_argument import MissingHistoryItemIdArgument
+from src.api_client.input_validation.get_history_item_input_validator import GetHistoryItemInputValidator
+from src.api_client.input_validation.exceptions.empty_history_item_id import EmptyHistoryItemId
 
 
 class TestGetHistoryItemInputValidator(unittest.TestCase):

@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import Mock
-from api_client.command_id import CommandId
-from api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
-from api_client.params_building.params_builder import ParamsBuilder
-from api_client.params_building.params_builder_interface import ParamsBuilderInterface
+from src.common.enums.command_id import CommandId
+from src.api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
+from src.api_client.params_building.params_builder import ParamsBuilder
+from src.api_client.params_building.params_builder_interface import ParamsBuilderInterface
 
 
 def create_mock_command_params_builders():

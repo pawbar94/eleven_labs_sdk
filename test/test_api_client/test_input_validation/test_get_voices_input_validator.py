@@ -1,5 +1,5 @@
 import unittest
-from api_client.input_validation.get_voices_input_validator import GetVoicesInputValidator
+from src.api_client.input_validation.get_voices_input_validator import GetVoicesInputValidator
 
 
 class TestGetVoicesInputValidator(unittest.TestCase):

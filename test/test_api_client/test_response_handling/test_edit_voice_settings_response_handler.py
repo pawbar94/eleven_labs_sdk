@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
-from api_client.response_handling.edit_voice_settings_response_handler import EditVoiceSettingsResponseHandler
+
+from src.api_client.response_handling.edit_voice_settings_response_handler import EditVoiceSettingsResponseHandler
 
 
 class TestEditVoiceSettingsResponseHandler(unittest.TestCase):

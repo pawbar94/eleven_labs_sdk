@@ -1,7 +1,7 @@
 import unittest
 import json
 from unittest.mock import MagicMock
-from api_client.response_handling.add_voice_response_handler import AddVoiceResponseHandler
+from src.api_client.response_handling.add_voice_response_handler import AddVoiceResponseHandler
 
 
 class TestAddVoiceResponseHandler(unittest.TestCase):

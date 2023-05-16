@@ -1,2 +1,0 @@
-class EmptyVoiceId(Exception):
-    pass

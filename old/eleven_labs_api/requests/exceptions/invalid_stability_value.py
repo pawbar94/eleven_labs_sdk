@@ -1,2 +1,0 @@
-class InvalidStabilityValue(Exception):
-    pass

@@ -1,14 +1,15 @@
 import unittest
 from unittest.mock import Mock
-from api_client.command_id import CommandId
-from api_client.api_client import ApiClient
-from api_client.input_validation.input_validator import InputValidator
-from api_client.latency_optimization import LatencyOptimization
-from api_client.params_building.params_builder import ParamsBuilder
-from api_client.request_handling.request_handler import RequestHandler
-from api_client.response_handling.response_handler import ResponseHandler
-from api_client.url_building.url_builder import UrlBuilder
-from common.voice.voice_settings import VoiceSettings
+from src.common.enums.command_id import CommandId
+from src.api_client.api_client import ApiClient
+from src.api_client.input_validation.input_validator import InputValidator
+from src.common.enums.latency_optimization import LatencyOptimization
+from src.api_client.params_building.params_builder import ParamsBuilder
+from src.api_client.request_handling.request_handler import RequestHandler
+from src.api_client.response_handling.response_handler import ResponseHandler
+from src.api_client.url_building.url_builder import UrlBuilder
+from src.common.enums.model_id import ModelId
+from src.common.voice.voice_settings import VoiceSettings
 
 
 def create_mocks():
@@ -23,45 +24,19 @@ def create_eleven_labs_api_client(input_validator: InputValidator, url_builder: 
 
 
 class TestElevenLabsApiClient(unittest.TestCase):
-    def test_text_to_speech_with_no_latency_optimization_provided(self):
+    def test_text_to_speech(self):
         input_validator, url_builder, params_builder, request_handler, response_handler = create_mocks()
         client = create_eleven_labs_api_client(input_validator, url_builder, params_builder, request_handler,
                                                response_handler)
 
         voice_id = 'some_voice_id'
         text = 'Some text to convert to speech'
-        model_id = 'some_model_id'
-        stability = 0.25
-        similarity_boost = 0.75
-        latency = LatencyOptimization.NONE
-
-        client.text_to_speech(voice_id, text, model_id, stability, similarity_boost)
-
-        input_validator.validate.assert_called_with(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text,
-                                                    model_id=model_id, stability=stability,
-                                                    similarity_boost=similarity_boost, latency=latency)
-        url_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text, model_id=model_id,
-                                             stability=stability, similarity_boost=similarity_boost, latency=latency)
-        params_builder.build.assert_called_with(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text,
-                                                model_id=model_id, stability=stability,
-                                                similarity_boost=similarity_boost, latency=latency)
-        request_handler.send.assert_called_with(CommandId.TEXT_TO_SPEECH, url_builder.build.return_value,
-                                                params_builder.build.return_value)
-        response_handler.process.assert_called_with(CommandId.TEXT_TO_SPEECH, request_handler.send.return_value)
-
-    def test_to_speech_with_latency_optimization_provided(self):
-        input_validator, url_builder, params_builder, request_handler, response_handler = create_mocks()
-        client = create_eleven_labs_api_client(input_validator, url_builder, params_builder, request_handler,
-                                               response_handler)
-
-        voice_id = 'some_voice_id'
-        text = 'Some text to convert to speech'
-        model_id = 'some_model_id'
+        model_id = ModelId.MULTILINGUAL
         stability = 0.25
         similarity_boost = 0.75
         latency = LatencyOptimization.MAX_WITH_NO_TEXT_NORMALIZER
 
-        client.text_to_speech(voice_id, text, model_id, stability, similarity_boost, latency)
+        client.text_to_speech(voice_id, text, stability, similarity_boost, model_id, latency)
 
         input_validator.validate.assert_called_with(CommandId.TEXT_TO_SPEECH, voice_id=voice_id, text=text,
                                                     model_id=model_id, stability=stability,

@@ -1,2 +1,0 @@
-class InvalidSimilarityBoostValue(Exception):
-    pass

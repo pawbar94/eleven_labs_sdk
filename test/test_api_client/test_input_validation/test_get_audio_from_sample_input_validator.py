@@ -1,9 +1,10 @@
 import unittest
-from api_client.input_validation.get_audio_from_sample_input_validator import GetAudioFromSampleInputValidator
-from api_client.input_validation.exceptions.empty_voice_id import EmptyVoiceId
-from api_client.input_validation.exceptions.missing_sample_id_argument import MissingSampleIdArgument
-from api_client.input_validation.exceptions.missing_voice_id_argument import MissingVoiceIdArgument
-from api_client.input_validation.exceptions.empty_sample_id import EmptySampleId
+
+from src.api_client.input_validation.exceptions.empty_sample_id import EmptySampleId
+from src.api_client.input_validation.get_audio_from_sample_input_validator import GetAudioFromSampleInputValidator
+from src.api_client.input_validation.exceptions.empty_voice_id import EmptyVoiceId
+from src.api_client.input_validation.exceptions.missing_sample_id_argument import MissingSampleIdArgument
+from src.api_client.input_validation.exceptions.missing_voice_id_argument import MissingVoiceIdArgument
 
 
 class TestGetAudioFromSampleInputValidator(unittest.TestCase):

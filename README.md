@@ -8,7 +8,7 @@ Table of contents:
 [ElevenLabs API client](#eleven_labs_api_client)<br>
 &emsp;[Creating api object](#creating_api_object)<br>
 &emsp;[Getting available voices](#getting_available_voices)<br>
-&emsp;[Converting text to audio file](#converting_text_to_audio_file)<br>
+&emsp;[Converting text to audio](#converting_text_to_audio)<br>
 &emsp;[Converting text to audio stream](#converting_text_to_audio_stream)<br>
 &emsp;[Getting default voice settings](#getting_default_voice_settings)<br>
 &emsp;[Getting voice settings](#getting_voice_settings)<br>
@@ -25,14 +25,6 @@ Table of contents:
 &emsp;[Downloading history items](#downloading_history_items)<br>
 &emsp;[Getting user subscription info](#getting_user_subscription_info)<br>
 &emsp;[Getting user info](#getting_user_info)<br>
-[Conversation creator](#conversation_creator)<br>
-[Command line interface application](#command_line_interface_application)<br>
-&emsp;[Converting text to audio file](#cli_converting_text_to_audio_file)<br>
-&emsp;[Converting text to dialogue audio](#cli_converting_text_to_dialogue_audio)<br>
-&emsp;[Getting available voices](#cli_getting_available_voices)<br>
-&emsp;[Getting generated items](#cli_getting_generated_items)<br>
-&emsp;[Getting user info](#cli_getting_user_info)<br>
-&emsp;[Getting user subscription info](#cli_getting_user_subscription_info)<br>
 
 ## <a name="what_is_it"></a>What is it?
 
@@ -79,20 +71,15 @@ for voice in all_voices:
 For the default voices, you will see output like this (properties of each voice shown below are much longer, but here they are shortened for readability):
 
 ```
-[INFO][ElevenLabsApi] Getting all voices
+[INFO][ElevenLabsApi] Getting available voices
 All voices:
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
- * Voice(available_for_tiers=[], category='premade', description=None, ...)
+ * Voice(id='21m00Tcm4TlvDq8ikWAM', name='Rachel', samples=[], category='premade', ...)
+ * Voice(id='AZnzlk1XvdvUeBnXmlld', name='Domi', samples=[], category='premade', ...)
+ * Voice(id='EXAVITQu4vr4xnSDxMaL', name='Bella', samples=[], category='premade', ...)
+ ...
 ```
 
-## <a name="converting_text_to_audio_file"></a>Converting text to audio file
+## <a name="converting_text_to_audio"></a>Converting text to audio
 
 In order to convert text to speech and save it to audio file, first of all choose voice that you want to use for the speech generation. There are couple of ways to do it, one of the is to filter out the desired voice by name from the list of all available voices:
 
@@ -104,34 +91,48 @@ api = ElevenLabsApi(api_key='YOUR_API_KEY')
 # Get all voices available on your account
 all_voices: List[Voice] = api.get_voices()
 # Chose the desired voice and extract it from the list
-voice: Voice = list(filter(lambda x: x.name == 'VOICE_NAME', all_voices))[0]
+sam_voice: Voice = list(filter(lambda x: x.name == 'Sam', all_voices))[0]
 ```
 
-Then, call the `text_to_speech_audio` method:
-
-```python
-# Text to convert
-text: str = 'Hello world!'
-# Path to the output audio file
-output_path: str = '/path/to/hello_world.mpeg'
-# Send text to speech conversion request
-api.text_to_speech_audio(text, voice, output_path)
-```
-
-After this call is done, you will be able to find the audio file at the specified path.
-
-## <a name="converting_text_to_audio_stream"></a>Converting text to audio stream
-
-In order to convert text to speech and get the audio stream, first of all choose voice that you want to use for the speech generation (same as in the previous example). Then call the `text_to_speech_stream` method:
+Then, the simplest way to convert text to speech using the chosen voice is to call the `text_to_speech` method providing only the voice's ID and the text to convert:
 
 ```python
 # Text to convert
 text: str = 'Hello world!'
 # Send text to speech conversion request
-audio_stream: bytes = api.text_to_speech_audio(text, voice)
+audio_data: bytes = api.text_to_speech(sam_voice.id, text)
+# Save audio to file
+with open('audio.mp3', 'wb') as file:
+    file.write(audio_data)
 ```
 
-After this call is done, you can find the audio stream in the `audio_stream` variable.
+However, there are additional optional parameters which you can specify to have a greater control over the conversion.
+
+```python
+from typing import List
+from eleven_labs_sdk import ElevenLabsApi, Voice, ModelId, LatencyOptimization
+# Create API object
+api = ElevenLabsApi(api_key='149c9ccec7996f023dc11180416d7d06')
+# Get all voices available on your account
+all_voices: List[Voice] = api.get_voices()
+# Chose the desired voice and extract it from the list
+sam_voice: Voice = list(filter(lambda x: x.name == 'Sam', all_voices))[0]
+# Text to convert
+text: str = 'Hello world!'
+# Send text to speech conversion request
+audio_data: bytes = api.text_to_speech(sam_voice.id, text, stability=0.57, similarity_boost=0.82,
+                                       model_id=ModelId.MULTILINGUAL, latency=LatencyOptimization.STRONG)
+# Save audio to file
+with open('audio.mp3', 'wb') as file:
+    file.write(audio_data)
+```
+
+After this call is done, you will be able to find the audio file at the specified file. In the console output you should see:
+
+```
+[INFO][ElevenLabsApi] Getting available voices
+[INFO][ElevenLabsApi] Converting text to speech using voice with ID yoZ06aMxZJJ28mfd3POQ
+```
 
 ## <a name="getting_default_voice_settings"></a>Getting default voice settings
 

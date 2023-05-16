@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import Mock
-from api_client.command_id import CommandId
-from api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
-from api_client.input_validation.input_validator import InputValidator
-from api_client.input_validation.input_validator_interface import InputValidatorInterface
+from src.common.enums.command_id import CommandId
+from src.api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
+from src.api_client.input_validation.input_validator import InputValidator
+from src.api_client.input_validation.input_validator_interface import InputValidatorInterface
 
 
 def create_mock_command_input_validators():

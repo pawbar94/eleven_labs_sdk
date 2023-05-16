@@ -1,5 +1,5 @@
 import unittest
-from api_client.input_validation.get_user_subscription_info_input_validator import GetUserSubscriptionInfoInputValidator
+from src.api_client.input_validation.get_user_subscription_info_input_validator import GetUserSubscriptionInfoInputValidator
 
 
 class TestGetUserSubscriptionInfoInputValidator(unittest.TestCase):

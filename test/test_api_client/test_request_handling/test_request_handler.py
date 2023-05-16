@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import Mock
-from api_client.command_id import CommandId
-from api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
-from api_client.request_handling.request_handler import RequestHandler
-from api_client.request_handling.request_handler_interface import RequestHandlerInterface
+from src.common.enums.command_id import CommandId
+from src.api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
+from src.api_client.request_handling.request_handler import RequestHandler
+from src.api_client.request_handling.request_handler_interface import RequestHandlerInterface
 
 API_KEY = '123'
 

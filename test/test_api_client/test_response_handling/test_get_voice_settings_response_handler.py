@@ -1,8 +1,8 @@
 import unittest
 import json
 from unittest.mock import MagicMock
-from api_client.response_handling.get_voice_settings_response_handler import GetVoiceSettingsResponseHandler
-from common.voice.voice_settings import VoiceSettings
+from src.api_client.response_handling.get_voice_settings_response_handler import GetVoiceSettingsResponseHandler
+from src.common.voice.voice_settings import VoiceSettings
 
 
 class TestGetVoiceSettingsResponseHandler(unittest.TestCase):

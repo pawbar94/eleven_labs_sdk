@@ -1,11 +1,11 @@
 import unittest
-from api_client.input_validation.add_voice_input_validator import AddVoiceInputValidator
-from api_client.input_validation.exceptions.empty_name import EmptyName
-from api_client.input_validation.exceptions.empty_samples import EmptySamples
-from api_client.input_validation.exceptions.missing_description_argument import MissingDescriptionArgument
-from api_client.input_validation.exceptions.missing_labels_argument import MissingLabelsArgument
-from api_client.input_validation.exceptions.missing_name_argument import MissingNameArgument
-from api_client.input_validation.exceptions.missing_samples_argument import MissingSamplesArgument
+from src.api_client.input_validation.add_voice_input_validator import AddVoiceInputValidator
+from src.api_client.input_validation.exceptions.empty_name import EmptyName
+from src.api_client.input_validation.exceptions.empty_samples import EmptySamples
+from src.api_client.input_validation.exceptions.missing_description_argument import MissingDescriptionArgument
+from src.api_client.input_validation.exceptions.missing_labels_argument import MissingLabelsArgument
+from src.api_client.input_validation.exceptions.missing_name_argument import MissingNameArgument
+from src.api_client.input_validation.exceptions.missing_samples_argument import MissingSamplesArgument
 
 
 class TestAddVoiceInputValidator(unittest.TestCase):

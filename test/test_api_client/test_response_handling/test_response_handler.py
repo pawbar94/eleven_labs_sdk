@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import Mock
-from api_client.command_id import CommandId
-from api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
-from api_client.response_handling.response_handler import ResponseHandler
-from api_client.response_handling.response_handler_interface import ResponseHandlerInterface
+from src.common.enums.command_id import CommandId
+from src.api_client.input_validation.exceptions.unknown_command_id import UnknownCommandId
+from src.api_client.response_handling.response_handler import ResponseHandler
+from src.api_client.response_handling.response_handler_interface import ResponseHandlerInterface
 from requests import Response
 
 

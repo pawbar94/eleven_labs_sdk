@@ -17,7 +17,7 @@ old/conversation_creator/__pycache__
 old/test/test_conversation_creator/__pycache__
 old/cli/__pycache__
 old/cli/commands/__pycache__
-old/cli/user_interface/__pycache__
+src/cli/user_interface/__pycache__
 old/cli/commands/text_file_readers/__pycache__/
 old/cli/commands/text_file_readers/extensions/__pycache__/
 old/cli/commands/to_speech_converter/__pycache__/

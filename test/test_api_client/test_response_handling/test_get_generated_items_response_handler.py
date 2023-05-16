@@ -1,10 +1,10 @@
 import unittest
 import json
 from unittest.mock import MagicMock
-from api_client.response_handling.get_generated_items_response_handler import GetGeneratedItemsResponseHandler
-from common.history_item.feedback import Feedback
-from common.history_item.history_item import HistoryItem
-from common.voice.voice_settings import VoiceSettings
+from src.api_client.response_handling.get_generated_items_response_handler import GetGeneratedItemsResponseHandler
+from src.common.history_item.feedback import Feedback
+from src.common.history_item.history_item import HistoryItem
+from src.common.voice.voice_settings import VoiceSettings
 
 
 class TestGetGeneratedItemsResponseHandler(unittest.TestCase):

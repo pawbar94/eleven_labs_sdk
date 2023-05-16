@@ -1,9 +1,9 @@
 import unittest
 import json
 from unittest.mock import MagicMock
-from api_client.response_handling.get_models_response_handler import GetModelsResponseHandler
-from common.model.language import Language
-from common.model.model import Model
+from src.api_client.response_handling.get_models_response_handler import GetModelsResponseHandler
+from src.common.model.language import Language
+from src.common.model.model import Model
 
 
 class TestGetModelsResponseHandler(unittest.TestCase):

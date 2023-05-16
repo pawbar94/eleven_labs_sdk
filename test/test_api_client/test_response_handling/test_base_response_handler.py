@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import MagicMock
-from api_client.response_handling.base_response_handler import BaseResponseHandler
-from api_client.response_handling.exceptions.response_error import ResponseError
+
+from src.api_client.response_handling.base_response_handler import BaseResponseHandler
+from src.api_client.response_handling.exceptions.response_error import ResponseError
 
 
 class TestBaseResponseHandler(unittest.TestCase):

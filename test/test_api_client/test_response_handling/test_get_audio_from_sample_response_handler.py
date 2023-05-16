@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from api_client.response_handling.get_audio_from_sample_response_handler import GetAudioFromSampleResponseHandler
+from src.api_client.response_handling.get_audio_from_sample_response_handler import GetAudioFromSampleResponseHandler
 
 
 class TestGetAudioFromSampleResponseHandler(unittest.TestCase):

@@ -1,13 +1,13 @@
 import json
 import unittest
 from unittest.mock import MagicMock
-from api_client.response_handling.get_voice_response_handler import GetVoiceResponseHandler
-from common.voice.fine_tuning_verification_attempt import FineTuningVerificationAttempt
-from common.voice.voice import Voice
-from common.voice.voice_fine_tuning import VoiceFineTuning
-from common.voice.voice_recording import VoiceRecording
-from common.voice.voice_sample import VoiceSample
-from common.voice.voice_settings import VoiceSettings
+from src.api_client.response_handling.get_voice_response_handler import GetVoiceResponseHandler
+from src.common.voice.fine_tuning_verification_attempt import FineTuningVerificationAttempt
+from src.common.voice.voice import Voice
+from src.common.voice.voice_fine_tuning import VoiceFineTuning
+from src.common.voice.voice_recording import VoiceRecording
+from src.common.voice.voice_sample import VoiceSample
+from src.common.voice.voice_settings import VoiceSettings
 
 
 class TestGetVoiceResponseHandler(unittest.TestCase):

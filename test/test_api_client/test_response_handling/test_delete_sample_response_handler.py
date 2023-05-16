@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from api_client.response_handling.delete_sample_response_handler import DeleteSampleResponseHandler
+from src.api_client.response_handling.delete_sample_response_handler import DeleteSampleResponseHandler
 
 
 class TestDeleteSampleResponseHandler(unittest.TestCase):
