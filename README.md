@@ -112,7 +112,7 @@ However, there are additional optional parameters which you can specify to have 
 from typing import List
 from eleven_labs_sdk import ElevenLabsApi, Voice, ModelId, LatencyOptimization
 # Create API object
-api = ElevenLabsApi(api_key='149c9ccec7996f023dc11180416d7d06')
+api = ElevenLabsApi(api_key='YOUR_API_KEY')
 # Get all voices available on your account
 all_voices: List[Voice] = api.get_voices()
 # Chose the desired voice and extract it from the list
