@@ -1,0 +1,2 @@
+class MissingHistoryItemIdArgument(Exception):
+    pass

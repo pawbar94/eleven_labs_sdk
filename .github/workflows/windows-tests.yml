@@ -13,5 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Set up venv
+      run: python -m venv venv
+
+    - name: Source virtualenv
+      run: venv\Scripts\activate.bat
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
     - name: Run unit tests
       run: python -m unittest discover ${{github.workspace}}\test

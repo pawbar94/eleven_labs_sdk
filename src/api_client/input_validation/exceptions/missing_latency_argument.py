@@ -1,0 +1,2 @@
+class MissingLatencyArgument(Exception):
+    pass

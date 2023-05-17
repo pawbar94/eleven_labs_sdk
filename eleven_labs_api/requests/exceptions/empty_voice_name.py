@@ -1,2 +1,0 @@
-class EmptyVoiceName(Exception):
-    pass

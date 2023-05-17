@@ -1,0 +1,2 @@
+class EmptySamples(Exception):
+    pass

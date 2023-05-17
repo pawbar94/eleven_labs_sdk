@@ -1,0 +1,2 @@
+class MissingStabilityArgument(Exception):
+    pass

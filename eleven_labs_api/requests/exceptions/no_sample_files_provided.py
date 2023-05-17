@@ -1,2 +1,0 @@
-class NoSampleFilesProvided(Exception):
-    pass

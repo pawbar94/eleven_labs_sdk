@@ -1,0 +1,2 @@
+class MissingModelIdArgument(Exception):
+    pass

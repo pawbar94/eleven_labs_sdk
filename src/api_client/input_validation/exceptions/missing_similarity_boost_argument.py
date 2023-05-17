@@ -1,0 +1,2 @@
+class MissingSimilarityBoostArgument(Exception):
+    pass

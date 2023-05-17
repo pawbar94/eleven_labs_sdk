@@ -1,2 +1,0 @@
-class EmptyHistoryItemsIds(Exception):
-    pass

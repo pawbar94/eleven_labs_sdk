@@ -1,0 +1,2 @@
+class MissingNameArgument(Exception):
+    pass

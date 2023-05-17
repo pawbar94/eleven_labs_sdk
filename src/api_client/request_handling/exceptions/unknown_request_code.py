@@ -1,0 +1,2 @@
+class UnknownRequestCode(Exception):
+    pass
